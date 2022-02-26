@@ -1,4 +1,5 @@
 <template>
+<!-- IS NOT IN USE -->
   <div class="flex-container">
     <button class="home">
       <router-link to="/"> ERC-20 TOKEN GENERATOR</router-link>

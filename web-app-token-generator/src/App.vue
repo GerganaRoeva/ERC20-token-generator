@@ -12,7 +12,7 @@
     </div>
 
     <router-view />
-    
+
   </div>
 </template>
 
@@ -37,7 +37,7 @@ body {
 
 <style scoped>
 .flex-container {
-  background-color: rgb(152, 250, 245);
+  background-color: #43dbca;
   margin: 0;
   padding: 0;
   height: 85px;
