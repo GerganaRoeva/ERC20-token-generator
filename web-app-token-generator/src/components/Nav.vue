@@ -1,10 +1,10 @@
 <template>
   <div class="flex-container">
     <button class="home">
-      <a href="/"> ERC-20 TOKEN GENERATOR</a>
+      <router-link to="/"> ERC-20 TOKEN GENERATOR</router-link>
     </button>
     <button class="dict">
-      <a href="/dictionary"> Dictionary</a>
+      <router-link to="/dictionary"> Dictionary</router-link>
     </button>
   </div>
 </template>
