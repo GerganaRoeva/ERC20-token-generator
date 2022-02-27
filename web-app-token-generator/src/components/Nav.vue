@@ -20,7 +20,6 @@
   flex-wrap: nowrap;
   justify-content: space-around;
 }
-
 button.home {
   font-size: 25px;
   background-color: transparent;
@@ -29,7 +28,6 @@ button.home {
   overflow: hidden;
   outline: none;
 }
-
 button.dict {
   font-size: 20px;
 
@@ -39,7 +37,6 @@ button.dict {
   overflow: hidden;
   outline: none;
 }
-
 a {
   text-decoration: none;
   color: rgb(255, 255, 255);
