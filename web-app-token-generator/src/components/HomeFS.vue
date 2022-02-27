@@ -12,7 +12,7 @@
       </div>
     </section>
     <section>
-      <img src="../assets/LayingDoodle.svg" width="600" height="400" />
+      <img src="../assets/Notifications_Monochromatic.svg" width="600" height="400" />
     </section>
   </div>
 </template>
@@ -21,9 +21,10 @@
 .flex-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-around;
   padding: 10px;
+  align-items: center;
   /* background-color: ; */
 } 
 img {
