@@ -22,15 +22,15 @@
         <label for="token-Symbol">Symbol</label>
         <input id="token-Symbol" name="token-Symbol" type="text" />
       </div>
-      <div class="form-control">
+      <div class="inputs">
         <label for="decimals">Decimals</label>
         <input id="decimals" name="decimals" type="number" />
       </div>
-      <div class="form-control">
+      <div class="inputs">
         <label for="initial">Initial supply</label>
         <input id="initial" name="initial" type="number" />
       </div>
-      <div class="form-control">
+      <div class="inputs">
         <label for="total">Total supply</label>
         <input id="total" name="total" type="number" />
       </div>
@@ -64,7 +64,7 @@ select {
   align-items: baseline;
   margin: 10px;
   justify-content: space-evenly;
-  /* border-color: black; */
+  /* background-color: aquamarine; */
   flex-wrap: wrap;
 }
 .inputs {

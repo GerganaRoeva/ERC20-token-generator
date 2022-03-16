@@ -12,7 +12,11 @@
       </div>
     </section>
     <section>
-      <img src="../assets/Notifications_Monochromatic.svg" width="600" height="400" />
+      <img
+        src="../assets/Notifications_Monochromatic.svg"
+        width="600"
+        height="400"
+      />
     </section>
   </div>
 </template>
@@ -25,22 +29,19 @@
   justify-content: space-around;
   padding: 10px;
   align-items: center;
-  /* background-color: ; */
-} 
+}
 img {
   padding: 15px;
 }
 .create-button {
   background-color: aquamarine;
-  color: black;
   padding: 14px 25px;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   border-radius: 12px;
 }
 .create-button:hover {
-  background-color: rgb(130, 214, 186);
+  box-shadow: 0px 15px 20px rgba(106, 255, 196, 0.507);
 }
 a {
   text-decoration: none;

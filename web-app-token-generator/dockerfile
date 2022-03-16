@@ -11,3 +11,7 @@ RUN npm install
 EXPOSE 8080
 
 CMD [ "npm","run","serve" ]
+# add to packege.json scripts
+# export NODE_OPTIONS=--openssl-legacy-provider 
+# export NODE_OPTIONS=--openssl-legacy-provider 
+# export NODE_OPTIONS=--openssl-legacy-provider 

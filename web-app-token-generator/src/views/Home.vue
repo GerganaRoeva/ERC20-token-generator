@@ -1,18 +1,18 @@
 <template>
   <div>
-    <HomeFS/>
+    <HeroSec/>
   </div>
 </template>
 
 <style scoped></style>
 
 <script>
-import HomeFS from "../components/HomeFS.vue";
+import HeroSec from "../components/HeroSec.vue";
 
 export default {
   name: "Home",
   components: {
-    HomeFS,
+    HeroSec,
   },
 };
 </script>
