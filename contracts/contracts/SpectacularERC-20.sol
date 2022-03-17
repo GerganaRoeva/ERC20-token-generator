@@ -28,7 +28,7 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
         _transferOwnership(_msgSender());
         _name = name_;
         _symbol = symbol_;
-        _currentSipply = _initialSupply;
+        _currentSupply = _initialSupply;
     }
 
     function name() public view virtual override returns (string memory) {
@@ -47,7 +47,7 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
         return _totalSupply;
     }
 
-    function currenrSupply() public view virtual override returns (uint256) {
+    function currenrSupply() public view virtual returns (uint256) {
         return _currentSupply;
     }
 
@@ -55,7 +55,7 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
         return _balances[account];
     }
 
-    function owner() public view virtual returns (address) {
+    function getOwner() public view virtual returns (address) {
         return _owner;
     }
 
@@ -94,8 +94,7 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        address owner = _msgSender();
-        _transfer(owner, to, amount);
+        _transfer(_owner, to, amount);
         return true;
     }
 
@@ -116,8 +115,7 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
     }
 
     function approve(address spender, uint256 amount) public virtual override returns (bool) {
-        address owner = _msgSender();
-        _approve(owner, spender, amount);
+        _approve(_owner, spender, amount);
         return true;
     }
 
@@ -177,7 +175,7 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
     }
 
     modifier onlyOwner() {
-        require(owner() == _msgSender(), "Ownable: caller is not the owner");
+        require(getOwner() == _msgSender(), "Ownable: caller is not the owner");
         _;
     }
 
@@ -195,10 +193,5 @@ contract BasicERC20 is IERC20, Context, IERC20Metadata {
     function renounceOwnership() public virtual onlyOwner {
         _transferOwnership(address(0));
     }
-
-
-
-
-}
 
 }
