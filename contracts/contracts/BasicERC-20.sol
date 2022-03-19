@@ -14,9 +14,16 @@ contract BasicERC20 is IBasicERC20, Context{
 
     uint256 private _totalSupply;
 
-    constructor(string memory name_, string memory symbol_) {
+    constructor (
+        string memory name_,
+        string memory symbol_,
+        uint256 totalSupply_,
+        uint8 decimals_
+        ) {
         _name = name_;
         _symbol = symbol_;
+        _totalSupply = totalSupply_;
+        _decimals = decimals_;
     }
 
     function name() public view virtual override returns (string memory) {
