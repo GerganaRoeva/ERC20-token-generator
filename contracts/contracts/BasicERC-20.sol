@@ -1,21 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./interfaces/IERC-20.sol";
-import "./interfaces/IERC-20Metadata.sol";
+import "./interfaces/IBasicERC-20.sol";
 import "./utils/Context.sol";
 
-contract BasicERC20 is IERC20, Context, IERC20Metadata {
+contract BasicERC20 is IBasicERC20, Context{
     mapping(address => uint256) private _balances;
-
     mapping(address => mapping(address => uint256)) private _allowances;
-
-    uint256 private _totalSupply;
-    uint8 private _decimals;
 
     string private _name;
     string private _symbol;
+    uint8 private _decimals;
 
+    uint256 private _totalSupply;
 
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
