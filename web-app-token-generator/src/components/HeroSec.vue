@@ -7,9 +7,11 @@
         Create an ERC20 Token in less than a minute! No login. No setup. No
         coding required.
       </p>
-      <div class="create-button">
-        <router-link to="/create-token"> Create token</router-link>
-      </div>
+      <router-link to="/create-token">
+          <div class="create-button">
+             Create token
+          </div>
+      </router-link>
     </section>
     <section>
       <img
