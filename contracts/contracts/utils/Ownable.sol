@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /* import "./interfaces/IBasicERC-20.sol"; */
 /* import "./interfaces/IERC-20Metadata.sol"; */
-import "./utils/Context.sol";
+import "./Context.sol";
 
 contract Ownable is Context {
 

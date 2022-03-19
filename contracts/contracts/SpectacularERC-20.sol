@@ -2,12 +2,12 @@
 pragma solidity ^0.8.0;
 
 import "./BasicERC-20.sol";
-import "./Ownable.sol";
+import "./utils/Ownable.sol";
 
 contract SpectacularERC20 is BasicERC20, Ownable {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
-    
+
     uint256 private _currentSupply;
     uint256 private _initialSupply;
     uint256 private _totalSupply;

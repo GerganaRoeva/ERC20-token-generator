@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./BasicERC-20.sol";
-import "./Ownable.sol";
+import "./utils/Ownable.sol";
 
 contract Pausable is BasicERC20, Ownable {
     event Paused(address account);
