@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "./utils/OwnableAccess.sol";
 
-abstract contract PausableHElper is OwnableAccess{
+abstract contract PausableHelper is OwnableAccess{
 
     event Paused(address account);
     event Unpaused(address account);
