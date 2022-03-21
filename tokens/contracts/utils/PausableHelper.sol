@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./utils/OwnableAccess.sol";
+import "./OwnableAccess.sol";
 
 abstract contract PausableHelper is OwnableAccess{
+    bool private _paused;
 
     event Paused(address account);
     event Unpaused(address account);
 
-    function paused() public view virtual  returns (bool) {
+    function paused() public view virtual returns (bool) {
        return _paused;
     }
 
@@ -24,11 +25,11 @@ abstract contract PausableHelper is OwnableAccess{
 
     function _pause() internal virtual whenNotPaused onlyOwner{
        _paused = true;
-       emit Paused(_msgSender());
+       emit Paused( msg.sender);
     }
 
     function _unpause() internal virtual whenPaused onlyOwner{
        _paused = false;
-       emit Unpaused(_msgSender());
-
+       emit Unpaused( msg.sender);
+   }
 }

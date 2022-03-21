@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./utils/PausableHelper.sol";
-import "./BasicERC-20.sol";
+import "./BasicERC20.sol";
 
 contract PausableERC20 is BasicERC20, PausableHelper {
     mapping(address => uint256) private _balances;
@@ -20,20 +20,16 @@ contract PausableERC20 is BasicERC20, PausableHelper {
        string memory symbol_,
        uint256 totalSupply_,
        uint8 decimals_
-    ) BasicERC20("", "", 0, 0) OwnableAccess()
+    ) BasicERC20(name_, symbol_, totalSupply_, decimals_) OwnableAccess()
     {
-       _name = name_;
-       _symbol = symbol_;
-       _totalSupply = totalSupply_;
        _paused = false;
-       _decimals = decimals_;
     }
 
     function transfer(
         address to,
         uint256 amount
     ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address owner = _msgSender();
+        address owner =  msg.sender;
         _transfer(owner, to, amount);
         return true;
     }
@@ -43,7 +39,7 @@ contract PausableERC20 is BasicERC20, PausableHelper {
         address to,
         uint256 amount
     ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address spender = _msgSender();
+        address spender =  msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
         return true;
@@ -53,7 +49,7 @@ contract PausableERC20 is BasicERC20, PausableHelper {
         address spender,
         uint256 amount
     ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address owner = _msgSender();
+        address owner =  msg.sender;
         _approve(owner, spender, amount);
         return true;
     }

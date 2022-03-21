@@ -1,22 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/* import "./interfaces/IBasicERC-20.sol"; */
-/* import "./interfaces/IERC-20Metadata.sol"; */
-import "./msgData.sol";
-
-contract OwnableAccess is msgData {
+contract OwnableAccess{
 
     address private _owner;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
    constructor() {
-       _transferOwnership(_msgSender());
+       _transferOwnership( msg.sender);
    }
 
    modifier onlyOwner() {
-       require(owner() == _msgSender(), "Ownable: caller is not the owner");
+       require(owner() ==  msg.sender, "Ownable: caller is not the owner");
        _;
    }
 

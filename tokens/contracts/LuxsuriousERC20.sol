@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./PausableERC-20.sol";
-import "./interfaces/ISpectacularERC-20.sol";
+import "./utils/PausableHelper.sol";
+import "./utils/MintBurnFuncs.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
+abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
+    mapping(address => uint256) private _balances;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
-
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _currentSupply;
     uint256 private _initialSupply;
@@ -21,6 +20,7 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
 
     string private _name;
     string private _symbol;
+    bool private _paused;
 
     constructor(
         string memory name_,
@@ -28,7 +28,7 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
         uint256 totalSupply_,
         uint256 initalSupply_,
         uint8 decimals_
-    )PausableERC20("", "", 0, 0)
+    )
     {
         _name = name_;
         _symbol = symbol_;
@@ -36,6 +36,7 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
         _initialSupply = initalSupply_;
         _currentSupply = _initialSupply;
         _decimals = decimals_;
+        _paused = false;
     }
 
     function setMinterRole(address account) public onlyOwner {
@@ -50,7 +51,7 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
         address spender,
         uint256 amount
     ) public virtual override onlyOwner returns (bool) {
-        address owner = _msgSender();
+        address owner =  msg.sender;
         _approve(owner, spender, amount);
         return true;
     }
@@ -59,7 +60,7 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
         address to,
         uint256 amount
     ) public virtual override onlyOwner returns (bool) {
-        address owner = _msgSender();
+        address owner =  msg.sender;
         _transfer(owner, to, amount);
         return true;
     }
@@ -69,16 +70,21 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
         address to,
         uint256 amount
     ) public virtual override onlyOwner returns (bool) {
-        address spender = _msgSender();
+        address spender =  msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
         return true;
     }
 
+
+    function allowance(address owner, address spender) public view virtual override returns (uint256) {
+        return _allowances[owner][spender];
+    }
+
     function mint(
         address account,
         uint256 amount
-    ) internal virtual onlyRole(MINTER_ROLE){
+    ) internal virtual override onlyRole(MINTER_ROLE){
         require(account != address(0), "ERC20: mint to the zero address");
         require(_currentSupply + amount <= _totalSupply, "Minting limit reached");
 
@@ -94,7 +100,7 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
     function burn(
         address account,
         uint256 amount
-    ) internal virtual onlyRole(BURNER_ROLE){
+    ) internal virtual override onlyRole(BURNER_ROLE){
         require(account != address(0), "ERC20: burn from the zero address");
 
         _beforeTokenTransfer(account, address(0), amount);
@@ -109,6 +115,51 @@ contract LuxuriousERC20 is ISpectacularERC20, PausableERC20, AccessControl{
         emit Transfer(account, address(0), amount);
 
         _afterTokenTransfer(account, address(0), amount);
+    }
+
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual override {
+        require(owner != address(0), "ERC20: approve from the zero address");
+        require(spender != address(0), "ERC20: approve to the zero address");
+
+        _allowances[owner][spender] = amount;
+        emit Approval(owner, spender, amount);
+    }
+
+    function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual override {
+        require(from != address(0), "ERC20: transfer from the zero address");
+        require(to != address(0), "ERC20: transfer to the zero address");
+
+        uint256 fromBalance = _balances[from];
+        require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
+        unchecked {
+            _balances[from] = fromBalance - amount;
+        }
+        _balances[to] += amount;
+
+        emit Transfer(from, to, amount);
+
+    }
+
+    function _spendAllowance(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual override {
+        uint256 currentAllowance = allowance(owner, spender);
+        if (currentAllowance != type(uint256).max) {
+            require(currentAllowance >= amount, "ERC20: insufficient allowance");
+            unchecked {
+                _approve(owner, spender, currentAllowance - amount);
+            }
+        }
     }
 
 }
