@@ -5,8 +5,6 @@ import "./utils/PausableHelper.sol";
 import "./BasicERC20.sol";
 
 contract PausableERC20 is BasicERC20, PausableHelper {
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
 
     string private _name;
     string private _symbol;
@@ -29,7 +27,7 @@ contract PausableERC20 is BasicERC20, PausableHelper {
         address to,
         uint256 amount
     ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address owner =  msg.sender;
+        address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;
     }
@@ -39,8 +37,8 @@ contract PausableERC20 is BasicERC20, PausableHelper {
         address to,
         uint256 amount
     ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address spender =  msg.sender;
-        _spendAllowance(from, spender, amount);
+        address owner = msg.sender;
+        _spendAllowance(owner, from, amount);
         _transfer(from, to, amount);
         return true;
     }
@@ -49,7 +47,7 @@ contract PausableERC20 is BasicERC20, PausableHelper {
         address spender,
         uint256 amount
     ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address owner =  msg.sender;
+        address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;
     }

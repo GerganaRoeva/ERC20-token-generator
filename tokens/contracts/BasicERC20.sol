@@ -3,8 +3,8 @@ pragma solidity ^0.8.0;
 
 contract BasicERC20{
 
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
+    mapping(address => uint256) internal _balances;
+    mapping(address => mapping(address => uint256)) internal _allowances;
 
     string private _name;
     string private _symbol;

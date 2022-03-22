@@ -6,9 +6,7 @@ import "./utils/OwnableAccess.sol";
 // import "./BasicERC20.sol";
 
 
-abstract contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
+contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
 
     uint256 private _currentSupply;
     uint256 private _initialSupply;
@@ -25,26 +23,23 @@ abstract contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
         uint256 totalSupply_,
         uint256 initalSupply_,
         uint8 decimals_
-    ) OwnableAccess(){
-        _name = name_;
-        _symbol = symbol_;
-        _totalSupply = totalSupply_;
+    ) BasicERC20(name_, symbol_, totalSupply_, decimals_) OwnableAccess(){
+        _currentSupply = initalSupply_;
         _initialSupply = initalSupply_;
-        _currentSupply = _initialSupply;
-        _decimals = decimals_;
+        _balances[msg.sender] = initalSupply_;
+    }
+
+    function currentSupply() public view returns (uint256) {
+        return _currentSupply;
     }
 
     function mint(address account, uint256 amount) internal virtual override onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
         require(_currentSupply + amount <= _totalSupply, "Minting limit reached");
 
-        _beforeTokenTransfer(address(0), account, amount);
-
         _currentSupply += amount;
         _balances[account] += amount;
         emit Transfer(address(0), account, amount);
-
-        _afterTokenTransfer(address(0), account, amount);
     }
 
     function allowance(address owner, address spender) public view virtual override returns (uint256) {
@@ -54,8 +49,6 @@ abstract contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
     function burn(address account, uint256 amount) internal virtual override onlyOwner {
         require(account != address(0), "ERC20: burn from the zero address");
 
-        _beforeTokenTransfer(account, address(0), amount);
-
         uint256 accountBalance = _balances[account];
         require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
         unchecked {
@@ -64,8 +57,6 @@ abstract contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
         _currentSupply -= amount;
 
         emit Transfer(account, address(0), amount);
-
-        _afterTokenTransfer(account, address(0), amount);
     }
 
     function transfer (

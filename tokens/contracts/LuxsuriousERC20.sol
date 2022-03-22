@@ -6,8 +6,6 @@ import "./utils/MintBurnFuncs.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
@@ -88,13 +86,9 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         require(account != address(0), "ERC20: mint to the zero address");
         require(_currentSupply + amount <= _totalSupply, "Minting limit reached");
 
-        _beforeTokenTransfer(address(0), account, amount);
-
         _currentSupply += amount;
         _balances[account] += amount;
         emit Transfer(address(0), account, amount);
-
-        _afterTokenTransfer(address(0), account, amount);
     }
 
     function burn(
@@ -102,8 +96,6 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         uint256 amount
     ) internal virtual override onlyRole(BURNER_ROLE){
         require(account != address(0), "ERC20: burn from the zero address");
-
-        _beforeTokenTransfer(account, address(0), amount);
 
         uint256 accountBalance = _balances[account];
         require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
@@ -114,7 +106,6 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
 
         emit Transfer(account, address(0), amount);
 
-        _afterTokenTransfer(account, address(0), amount);
     }
 
     function _approve(
