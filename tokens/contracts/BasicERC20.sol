@@ -25,8 +25,7 @@ contract BasicERC20{
         _symbol = symbol_;
         _totalSupply = totalSupply_;
         _decimals = decimals_;
-        address owner = msg.sender;
-        _balances[owner] = totalSupply_;
+        _balances[msg.sender] = totalSupply_;
     }
 
     function name() public view virtual returns (string memory) {
@@ -64,8 +63,8 @@ contract BasicERC20{
         address to,
         uint256 amount
     ) public virtual returns (bool) {
-        address spender = msg.sender;
-        _spendAllowance(from, spender, amount);
+        address owner = msg.sender;
+        _spendAllowance(owner, from, amount);
         _transfer(from, to, amount);
         return true;
     }
@@ -73,6 +72,23 @@ contract BasicERC20{
     function approve(address spender, uint256 amount) public virtual returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, amount);
+        return true;
+    }
+
+    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
+    address owner = msg.sender;
+    _approve(owner, spender, _allowances[owner][spender] + addedValue);
+    return true;
+    }
+
+    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
+        address owner = msg.sender;
+        uint256 currentAllowance = _allowances[owner][spender];
+        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
+        unchecked {
+            _approve(owner, spender, currentAllowance - subtractedValue);
+        }
+        
         return true;
     }
 
