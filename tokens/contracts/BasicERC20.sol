@@ -69,26 +69,12 @@ contract BasicERC20{
         return true;
     }
 
-    function approve(address spender, uint256 amount) public virtual returns (bool) {
+    function approve(
+        address spender,
+        uint256 amount
+    ) public virtual returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, amount);
-        return true;
-    }
-
-    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
-    address owner = msg.sender;
-    _approve(owner, spender, _allowances[owner][spender] + addedValue);
-    return true;
-    }
-
-    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
-        address owner = msg.sender;
-        uint256 currentAllowance = _allowances[owner][spender];
-        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
-        unchecked {
-            _approve(owner, spender, currentAllowance - subtractedValue);
-        }
-        
         return true;
     }
 
@@ -100,7 +86,7 @@ contract BasicERC20{
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
-        _allowances[owner][spender] = amount;
+        _allowances[owner][spender] += amount;
         emit Approval(owner, spender, amount);
     }
 
