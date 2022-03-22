@@ -61,7 +61,6 @@ contract("BasicERC20", accounts => {
           const account_one_starting_balance = await instance.balanceOf.call(account_one);
 
           await instance.approve(account_one, amount);
-          await instance.increaseAllowance(account_one, amount);
 
           const _allowance = await instance.allowance.call(owner, account_one);
 
