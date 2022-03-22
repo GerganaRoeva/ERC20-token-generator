@@ -25,6 +25,8 @@ contract BasicERC20{
         _symbol = symbol_;
         _totalSupply = totalSupply_;
         _decimals = decimals_;
+        address owner = msg.sender;
+        _balances[owner] = totalSupply_;
     }
 
     function name() public view virtual returns (string memory) {
