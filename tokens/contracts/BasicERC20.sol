@@ -52,7 +52,7 @@ contract BasicERC20{
     }
 
     function transfer(address to, uint256 amount) public virtual returns (bool) {
-        address owner =  msg.sender;
+        address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;
     }
@@ -62,14 +62,14 @@ contract BasicERC20{
         address to,
         uint256 amount
     ) public virtual returns (bool) {
-        address spender =  msg.sender;
+        address spender = msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
         return true;
     }
 
     function approve(address spender, uint256 amount) public virtual returns (bool) {
-        address owner =  msg.sender;
+        address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;
     }
