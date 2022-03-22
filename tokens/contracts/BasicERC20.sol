@@ -48,7 +48,10 @@ contract BasicERC20{
         return _balances[account];
     }
 
-    function allowance(address owner, address spender) public view virtual returns (uint256) {
+    function allowance(
+        address owner,
+        address spender
+    ) public view virtual returns (uint256) {
         return _allowances[owner][spender];
     }
 
