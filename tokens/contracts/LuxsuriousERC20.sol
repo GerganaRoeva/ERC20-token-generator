@@ -9,6 +9,8 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
+    bytes32 public constant BURNER_ROLE = keccak256("OWNER_ROLE");
+
 
     uint256 private _currentSupply;
     uint256 private _initialSupply;
@@ -37,6 +39,10 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
 
     function setBurnerRole(address account) public onlyOwner {
         _setupRole(BURNER_ROLE, account);
+    }
+
+    function setOwnerRole(address account) public onlyOwner {
+        _setupRole(OWNER_ROLE, account);
     }
 
     function approve(
