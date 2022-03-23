@@ -98,7 +98,7 @@ contract("SpectacularERC20", accounts => {
             await instance.mint(account_one, 5, {from: account_two});
         }
         catch (error) {
-            assert(error, "Non owner minted");
+            assert(error, "Non owner can mint");
         }
 
         assert.equal(
@@ -133,13 +133,13 @@ contract("SpectacularERC20", accounts => {
             await instance.burn(account_one, 5, {from: account_two});
         }
         catch (error) {
-            assert(error, "Non owner burned");
+            assert(error, "Non owner can burn");
         }
 
         assert.equal(
             starting_supply.toNumber() - amount,
             ending_supply.toNumber() ,
-            "Supply wasn't correctly increased"
+            "Supply wasn't correctly decreased"
         );
         assert.equal(
             account_two_starting_balance.toNumber(),
