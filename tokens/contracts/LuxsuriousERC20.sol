@@ -12,12 +12,6 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
 
     uint256 private _currentSupply;
     uint256 private _initialSupply;
-    uint256 private _totalSupply;
-
-    uint8 private _decimals;
-
-    string private _name;
-    string private _symbol;
     bool private _paused;
 
     constructor(
@@ -79,7 +73,7 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         return _allowances[owner][spender];
     }
 
-    function mint(
+    function _mint(
         address account,
         uint256 amount
     ) internal virtual override onlyRole(MINTER_ROLE){
@@ -91,7 +85,7 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         emit Transfer(address(0), account, amount);
     }
 
-    function burn(
+    function _burn(
         address account,
         uint256 amount
     ) internal virtual override onlyRole(BURNER_ROLE){

@@ -6,11 +6,6 @@ import "./BasicERC20.sol";
 
 contract PausableERC20 is BasicERC20, PausableHelper {
 
-    string private _name;
-    string private _symbol;
-    uint8 private _decimals;
-
-    uint256 private _totalSupply;
     bool private _paused;
 
     constructor(

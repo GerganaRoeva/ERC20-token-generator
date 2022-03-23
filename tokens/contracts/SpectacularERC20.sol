@@ -8,55 +8,47 @@ import "./utils/OwnableAccess.sol";
 
 contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
 
-    uint256 private _currentSupply;
     uint256 private _initialSupply;
-    uint256 private _totalSupply;
-
-    uint8 private _decimals;
-
-    string private _name;
-    string private _symbol;
 
     constructor(
         string memory name_,
         string memory symbol_,
-        uint256 totalSupply_,
+        uint256 capSupply_,
         uint256 initalSupply_,
         uint8 decimals_
-    ) BasicERC20(name_, symbol_, totalSupply_, decimals_) OwnableAccess(){
-        _currentSupply = initalSupply_;
+    ) BasicERC20(name_, symbol_, initalSupply_, decimals_) OwnableAccess(){
+        _capSupply = capSupply_;
         _initialSupply = initalSupply_;
         _balances[msg.sender] = initalSupply_;
     }
 
-    function currentSupply() public view returns (uint256) {
-        return _currentSupply;
+    function capSupply() public view returns (uint256) {
+        return _capSupply;
     }
 
-    function mint(address account, uint256 amount) internal virtual override onlyOwner {
+    /* function mint(address account, uint256 amount) public view virtual override onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
-        require(_currentSupply + amount <= _totalSupply, "Minting limit reached");
+        require(_totalSupply + amount <= _capSupply, "Minting limit reached");
 
-        _currentSupply += amount;
+        _totalSupply += amount;
         _balances[account] += amount;
         emit Transfer(address(0), account, amount);
+    } */
+
+    function mint(address account, uint256 amount) public onlyOwner returns (bool) {
+        _mint(account, amount);
+        return true;
+
     }
 
     function allowance(address owner, address spender) public view virtual override returns (uint256) {
         return _allowances[owner][spender];
     }
 
-    function burn(address account, uint256 amount) internal virtual override onlyOwner {
-        require(account != address(0), "ERC20: burn from the zero address");
+    function burn(address account, uint256 amount) public onlyOwner returns (bool){
+        _burn(account, amount);
+        return true;
 
-        uint256 accountBalance = _balances[account];
-        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
-        unchecked {
-            _balances[account] = accountBalance - amount;
-        }
-        _currentSupply -= amount;
-
-        emit Transfer(account, address(0), amount);
     }
 
     function transfer (
