@@ -1,21 +1,15 @@
 const SpectacularERC20 = artifacts.require("SpectacularERC20");
 
-// name = "NAME";
-// symbol = "NM";
-// totalSupply = 99995;
-// decimals = 10;
-// initalSupply = 8642;
-
 contract("SpectacularERC20", accounts => {
-    it("should put 1000 in the totalSupply", async () => {
+    it("should put 20000 in the capSupply", async () => {
        const instance = await SpectacularERC20.deployed();
-       const balance = await instance.totalSupply();
+       const balance = await instance.capSupply();
        assert.equal(balance.toNumber(), 20000);
      });
 
-     it("should put 500 in the currSupply", async () => {
+     it("should put 1000 in the totalSupply", async () => {
         const instance = await SpectacularERC20.deployed();
-        const balance = await instance.currentSupply();
+        const balance = await instance.totalSupply();
         assert.equal(balance.toNumber(), 1000);
       });
 
@@ -83,4 +77,32 @@ contract("SpectacularERC20", accounts => {
             "Amount was incorrectly taken from the sender"
           );
         });
+
+        it("should mint 5", async () => {
+            const owner = accounts[0];
+            const account_two = accounts[2];
+            const amount = 5;
+
+            const instance = await SpectacularERC20.deployed();
+
+            const account_two_starting_balance = await instance.balanceOf.call(account_two);
+            const starting_supply = await instance.totalSupply();
+
+            await instance.mint(account_two, amount, {from: owner});
+
+            const account_two_ending_balance = await instance.balanceOf.call(account_two);
+            const ending_supply = await instance.totalSupply();
+
+
+            assert.equal(
+              starting_supply.toNumber() + amount,
+              ending_supply.toNumber() ,
+              "Supply wasn't correctly increased"
+            );
+            assert.equal(
+              account_two_starting_balance.toNumber(),
+              account_two_ending_balance.toNumber() - amount,
+              "Amount was incorrectly given to the msg.sender"
+            );
+          });
 });
