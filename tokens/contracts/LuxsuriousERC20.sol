@@ -5,31 +5,26 @@ import "./utils/PausableHelper.sol";
 import "./utils/MintBurnFuncs.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
+contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
-    bytes32 public constant BURNER_ROLE = keccak256("OWNER_ROLE");
+    bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
 
-
-    uint256 private _currentSupply;
     uint256 private _initialSupply;
     bool private _paused;
 
     constructor(
         string memory name_,
         string memory symbol_,
-        uint256 totalSupply_,
+        uint256 capSupply_,
         uint256 initalSupply_,
         uint8 decimals_
-    )
+    ) BasicERC20(name_, symbol_, initalSupply_, decimals_)
     {
-        _name = name_;
-        _symbol = symbol_;
-        _totalSupply = totalSupply_;
+        _capSupply = capSupply_;
+        _totalSupply = initalSupply_;
         _initialSupply = initalSupply_;
-        _currentSupply = _initialSupply;
-        _decimals = decimals_;
         _paused = false;
     }
 
@@ -84,9 +79,9 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         uint256 amount
     ) internal virtual override onlyRole(MINTER_ROLE){
         require(account != address(0), "ERC20: mint to the zero address");
-        require(_currentSupply + amount <= _totalSupply, "Minting limit reached");
+        require(_totalSupply + amount <= _capSupply, "Minting limit reached");
 
-        _currentSupply += amount;
+        _totalSupply += amount;
         _balances[account] += amount;
         emit Transfer(address(0), account, amount);
     }
@@ -102,7 +97,7 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         unchecked {
             _balances[account] = accountBalance - amount;
         }
-        _currentSupply -= amount;
+        _totalSupply -= amount;
 
         emit Transfer(account, address(0), amount);
 
