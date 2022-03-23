@@ -62,7 +62,7 @@ contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
     function transfer (
         address to,
         uint256 amount
-    ) public virtual override onlyOwner returns (bool) {
+    ) public virtual override returns (bool) {
         address owner =  msg.sender;
         _transfer(owner, to, amount);
         return true;
@@ -72,7 +72,7 @@ contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
         address from,
         address to,
         uint256 amount
-    ) public virtual override onlyOwner returns (bool) {
+    ) public virtual override returns (bool) {
         address spender =  msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
@@ -82,7 +82,7 @@ contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
     function approve(
         address spender,
         uint256 amount
-    ) public virtual override onlyOwner returns (bool) {
+    ) public virtual override returns (bool) {
         address owner =  msg.sender;
         _approve(owner, spender, amount);
         return true;

@@ -66,8 +66,8 @@ contract BasicERC20{
         address to,
         uint256 amount
     ) public virtual returns (bool) {
-        address owner = msg.sender;
-        _spendAllowance(owner, from, amount);
+        address spender =  msg.sender;
+        _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
         return true;
     }

@@ -26,7 +26,7 @@ contract PausableERC20 is BasicERC20, PausableHelper {
     function transfer(
         address to,
         uint256 amount
-    ) public virtual override whenNotPaused onlyOwner returns (bool) {
+    ) public virtual override whenNotPaused returns (bool) {
         address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;
@@ -36,9 +36,9 @@ contract PausableERC20 is BasicERC20, PausableHelper {
         address from,
         address to,
         uint256 amount
-    ) public virtual override whenNotPaused onlyOwner returns (bool) {
-        address owner = msg.sender;
-        _spendAllowance(owner, from, amount);
+    ) public virtual override whenNotPaused returns (bool) {
+        address spender =  msg.sender;
+        _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
         return true;
     }
@@ -46,7 +46,7 @@ contract PausableERC20 is BasicERC20, PausableHelper {
     function approve(
         address spender,
         uint256 amount
-    ) public virtual override whenNotPaused onlyOwner returns (bool) {
+    ) public virtual override whenNotPaused returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;

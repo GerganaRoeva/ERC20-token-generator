@@ -48,7 +48,7 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
     function approve(
         address spender,
         uint256 amount
-    ) public virtual override onlyOwner returns (bool) {
+    ) public virtual override returns (bool) {
         address owner =  msg.sender;
         _approve(owner, spender, amount);
         return true;
@@ -57,7 +57,7 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
     function transfer(
         address to,
         uint256 amount
-    ) public virtual override onlyOwner returns (bool) {
+    ) public virtual override returns (bool) {
         address owner =  msg.sender;
         _transfer(owner, to, amount);
         return true;
@@ -67,7 +67,7 @@ abstract contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl
         address from,
         address to,
         uint256 amount
-    ) public virtual override onlyOwner returns (bool) {
+    ) public virtual override returns (bool) {
         address spender =  msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
