@@ -26,15 +26,6 @@ contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
         return _capSupply;
     }
 
-    /* function mint(address account, uint256 amount) public view virtual override onlyOwner {
-        require(account != address(0), "ERC20: mint to the zero address");
-        require(_totalSupply + amount <= _capSupply, "Minting limit reached");
-
-        _totalSupply += amount;
-        _balances[account] += amount;
-        emit Transfer(address(0), account, amount);
-    } */
-
     function mint(address account, uint256 amount) public onlyOwner returns (bool) {
         _mint(account, amount);
         return true;
@@ -48,7 +39,6 @@ contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
     function burn(address account, uint256 amount) public onlyOwner returns (bool){
         _burn(account, amount);
         return true;
-
     }
 
     function transfer (
