@@ -23,6 +23,16 @@ contract PausableERC20 is BasicERC20, PausableHelper {
        _paused = false;
     }
 
+    function pause() public virtual whenNotPaused onlyOwner returns (bool) {
+        _pause();
+        return true;
+    }
+
+    function unpause() public virtual whenPaused onlyOwner returns (bool) {
+        _unpause();
+        return true;
+    }
+
     function transfer(
         address to,
         uint256 amount
