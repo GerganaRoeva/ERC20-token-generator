@@ -27,6 +27,10 @@ contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
         _paused = false;
     }
 
+    function capSupply() public view returns (uint256) {
+        return _capSupply;
+    }
+
     function setMinterRole(address account) public onlyOwner {
         _setupRole(MINTER_ROLE, account);
     }
