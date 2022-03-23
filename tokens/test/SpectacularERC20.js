@@ -78,31 +78,38 @@ contract("SpectacularERC20", accounts => {
           );
         });
 
-        it("should mint 5", async () => {
-            const owner = accounts[0];
-            const account_two = accounts[2];
-            const amount = 5;
+    it("should mint 5", async () => {
+        const owner = accounts[0];
+        const account_one = accounts[1];
+        const account_two = accounts[2];
+        const amount = 5;
 
-            const instance = await SpectacularERC20.deployed();
+        const instance = await SpectacularERC20.deployed();
 
-            const account_two_starting_balance = await instance.balanceOf.call(account_two);
-            const starting_supply = await instance.totalSupply();
+        const account_two_starting_balance = await instance.balanceOf.call(account_two);
+        const starting_supply = await instance.totalSupply();
 
-            await instance.mint(account_two, amount, {from: owner});
+        await instance.mint(account_two, amount, {from: owner});
 
-            const account_two_ending_balance = await instance.balanceOf.call(account_two);
-            const ending_supply = await instance.totalSupply();
+        const account_two_ending_balance = await instance.balanceOf.call(account_two);
+        const ending_supply = await instance.totalSupply();
 
+        try {
+            await instance.mint(account_one, 5, {from: account_two});
+        }
+        catch (error) {
+            assert(error, "Non owner minted");
+        }
 
-            assert.equal(
-              starting_supply.toNumber() + amount,
-              ending_supply.toNumber() ,
-              "Supply wasn't correctly increased"
-            );
-            assert.equal(
-              account_two_starting_balance.toNumber(),
-              account_two_ending_balance.toNumber() - amount,
-              "Amount was incorrectly given to the msg.sender"
-            );
-          });
+        assert.equal(
+            starting_supply.toNumber() + amount,
+            ending_supply.toNumber() ,
+            "Supply wasn't correctly increased"
+        );
+        assert.equal(
+            account_two_starting_balance.toNumber(),
+            account_two_ending_balance.toNumber() - amount,
+            "Amount was incorrectly given to the msg.sender"
+        );
+    });
 });
