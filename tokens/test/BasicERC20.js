@@ -1,13 +1,8 @@
 const BasicERC20 = artifacts.require("BasicERC20");
 
-name = "NAME";
-symbol = "NM";
-supply = 200;
-decimals = 10;
-
 contract("BasicERC20", accounts => {
   it("should put 200 supply", () =>
-    BasicERC20.deployed(name, symbol, supply, decimals)
+    BasicERC20.deployed()
       .then(instance => instance.totalSupply.call())
       .then(_supply => {
         assert.equal(
@@ -23,7 +18,7 @@ contract("BasicERC20", accounts => {
         const account_one = accounts[1];
         const amount = 10;
 
-        const instance = await BasicERC20.deployed(name, symbol, supply, decimals);
+        const instance = await BasicERC20.deployed();
 
         const account_one_starting_balance = await instance.balanceOf.call(account_one);
         const owner_starting_balance = await instance.balanceOf.call(owner);
@@ -45,7 +40,7 @@ contract("BasicERC20", accounts => {
         );
       });
 
-      it("should transfer 5 NM to account correctly from acount to acount", async () => {
+      it("should transfer 5 to account correctly from acount to acount with allowance", async () => {
           const owner = accounts[0];
 
           const account_one = accounts[1];
@@ -53,19 +48,19 @@ contract("BasicERC20", accounts => {
 
           const amount = 5;
 
-          const instance = await BasicERC20.deployed(name, symbol, supply, decimals);
+          const instance = await BasicERC20.deployed();
 
-          await instance.transfer(account_one, amount);
-
+          const owner_starting_balance = await instance.balanceOf.call(owner);
           const account_two_starting_balance = await instance.balanceOf.call(account_two);
           const account_one_starting_balance = await instance.balanceOf.call(account_one);
 
-          await instance.approve(account_one, amount);
+          await instance.approve(account_one, amount, {from: owner});
 
           const _allowance = await instance.allowance.call(owner, account_one);
 
-          await instance.transferFrom(account_one, account_two, amount);
+          await instance.transferFrom(owner, account_two, amount, {from: account_one});
 
+          const owner_ending_balance = await instance.balanceOf.call(owner);
           const account_one_ending_balance = await instance.balanceOf.call(account_one);
           const account_two_ending_balance = await instance.balanceOf.call(account_two);
 
@@ -76,8 +71,13 @@ contract("BasicERC20", accounts => {
           );
           assert.equal(
             account_one_starting_balance.toNumber(),
-            account_one_ending_balance.toNumber() + amount,
-            "Amount wasn't correctly taken from the sender"
+            account_one_ending_balance.toNumber(),
+            "Amount was incorrectly taken from the msg.sender"
+          );
+          assert.equal(
+            owner_starting_balance.toNumber() - amount,
+            owner_ending_balance.toNumber(),
+            "Amount was incorrectly taken from the sender"
           );
         });
 });
