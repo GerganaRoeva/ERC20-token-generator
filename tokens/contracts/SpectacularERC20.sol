@@ -29,7 +29,6 @@ contract SpectacularERC20 is MintBurnFuncs, OwnableAccess{
     function mint(address account, uint256 amount) public onlyOwner returns (bool) {
         _mint(account, amount);
         return true;
-
     }
 
     function allowance(address owner, address spender) public view virtual override returns (uint256) {

@@ -9,7 +9,6 @@ contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
-    bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
 
     uint256 private _initialSupply;
     bool private _paused;
@@ -34,10 +33,6 @@ contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
 
     function setBurnerRole(address account) public onlyOwner {
         _setupRole(BURNER_ROLE, account);
-    }
-
-    function setOwnerRole(address account) public onlyOwner {
-        _setupRole(OWNER_ROLE, account);
     }
 
     function approve(
@@ -74,33 +69,14 @@ contract LuxuriousERC20 is MintBurnFuncs, PausableHelper, AccessControl{
         return _allowances[owner][spender];
     }
 
-    function _mint(
-        address account,
-        uint256 amount
-    ) internal virtual override onlyRole(MINTER_ROLE){
-        require(account != address(0), "ERC20: mint to the zero address");
-        require(_totalSupply + amount <= _capSupply, "Minting limit reached");
-
-        _totalSupply += amount;
-        _balances[account] += amount;
-        emit Transfer(address(0), account, amount);
+    function mint(address account, uint256 amount) public onlyRole(MINTER_ROLE) returns (bool) {
+        _mint(account, amount);
+        return true;
     }
 
-    function _burn(
-        address account,
-        uint256 amount
-    ) internal virtual override onlyRole(BURNER_ROLE){
-        require(account != address(0), "ERC20: burn from the zero address");
-
-        uint256 accountBalance = _balances[account];
-        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
-        unchecked {
-            _balances[account] = accountBalance - amount;
-        }
-        _totalSupply -= amount;
-
-        emit Transfer(account, address(0), amount);
-
+    function burn(address account, uint256 amount) public onlyRole(BURNER_ROLE) returns (bool){
+        _burn(account, amount);
+        return true;
     }
 
     function _approve(
