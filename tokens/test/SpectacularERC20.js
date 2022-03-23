@@ -112,4 +112,39 @@ contract("SpectacularERC20", accounts => {
             "Amount was incorrectly given to the msg.sender"
         );
     });
+
+    it("should burn 5", async () => {
+        const owner = accounts[0];
+        const account_one = accounts[1];
+        const account_two = accounts[2];
+        const amount = 5;
+
+        const instance = await SpectacularERC20.deployed();
+
+        const account_two_starting_balance = await instance.balanceOf.call(account_two);
+        const starting_supply = await instance.totalSupply();
+
+        await instance.burn(account_two, amount, {from: owner});
+
+        const account_two_ending_balance = await instance.balanceOf.call(account_two);
+        const ending_supply = await instance.totalSupply();
+
+        try {
+            await instance.burn(account_one, 5, {from: account_two});
+        }
+        catch (error) {
+            assert(error, "Non owner burned");
+        }
+
+        assert.equal(
+            starting_supply.toNumber() - amount,
+            ending_supply.toNumber() ,
+            "Supply wasn't correctly increased"
+        );
+        assert.equal(
+            account_two_starting_balance.toNumber(),
+            account_two_ending_balance.toNumber() + amount,
+            "Amount was incorrectly given to the msg.sender"
+        );
+    });
 });
