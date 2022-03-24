@@ -259,4 +259,4 @@ const bytecode = "0x60806040523480156200001157600080fd5b506040516200155838038062
 
 // const dataOfContract = [abi, bytecode];
 
-export {abi, bytecode};
+export {abiBasic, bytecodeBasic};
