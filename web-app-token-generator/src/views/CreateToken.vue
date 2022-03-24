@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-
-      <button @click="connectMetaMask">CONNECT TO METAMASK</button>
+    <ConnectingMetaMask/>
     <h2>Creating token</h2>
 
     <div class="choosing-token">
@@ -84,14 +83,19 @@
 </template>
 
 <script>
-import { abi, bytecode } from "../contractsInstances/instanceBasicERC20.js"
+import ConnectingMetaMask from "../components/ConnectingMetaMask.vue";
+
+import { abiBasic, bytecodeBasic } from "../contractsInstances/instanceBasicERC20.js"
+// import { abiPausable, bytecodePausable } from "../contractsInstances/instancePausabelERC20.js"
+
 const Web3 = require("web3");
 
-if (typeof window.ethereum !== 'undefined') {
-  console.log('MetaMask is installed!');
-}
+
 
 export default {
+    components: {
+      ConnectingMetaMask,
+    },
   data() {
     return {
       flagSupply: "",
@@ -109,20 +113,16 @@ export default {
     };
   },
   methods: {
-      async connectMetaMask(){
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-      },
-
       async submitForm() {
           const web3 = new Web3(window.ethereum);
           const accounts = await web3.eth.getAccounts();
 
-          const instanceBasicERC20 = await new web3.eth.Contract(abi);
+          const instanceBasicERC20 = await new web3.eth.Contract(abiBasic);
 
           web3.eth.Contract.defaultAccount = await accounts[0];
 
           await instanceBasicERC20.deploy({
-                data: bytecode,
+                data: bytecodeBasic,
                arguments: [this.tokenName, this.tokenSymbol, this.tokenDecimals, this.tokenSupply ]
            }).send({
             from: accounts[0]
