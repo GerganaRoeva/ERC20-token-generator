@@ -104,9 +104,8 @@ button:hover {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  /* align-items: center; */
   display: flex;
   flex-direction: row;
-  /* align-items: baseline; */
+  row-gap: 15px;
 }
 </style>
