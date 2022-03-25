@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <ConnectingMetaMask/>
+    <InstallMetaMask/>
     <h2>Creating token</h2>
 
     <div class="choosing-token">
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import ConnectingMetaMask from "../components/ConnectingMetaMask.vue";
+import InstallMetaMask from "../components/InstallMetaMask.vue";
 
 import { abiBasic, bytecodeBasic } from "../contractsInstances/instanceBasicERC20.js"
 // import { abiPausable, bytecodePausable } from "../contractsInstances/instancePausabelERC20.js"
@@ -94,7 +94,7 @@ const Web3 = require("web3");
 
 export default {
     components: {
-      ConnectingMetaMask,
+      InstallMetaMask,
     },
   data() {
     return {
