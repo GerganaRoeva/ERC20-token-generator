@@ -9,7 +9,7 @@
               <p> &#9989; ERC-20</p>
               <p> &#9989; Custom: decimals, supply</p>
               <p> &#128679;	Acsses type: none</p>
-              <p> &#10060; Mint&Burn tokens(capped supply)</p>
+              <p> &#10060; Mint&Burn tokens (capped supply)</p>
               <p> &#10060; Pausable</p>
             </div>
             <button @click="flagSupply ='fixed'">BasicERC-20</button>
@@ -21,7 +21,7 @@
               <p> &#9989; ERC-20</p>
               <p> &#9989; Custom: decimals, supply</p>
               <p> &#128679; Acsses type: ownable</p>
-              <p> &#10060; Mint&Burn tokens(capped supply)</p>
+              <p> &#10060; Mint&Burn tokens (capped supply)</p>
               <p> &#9989; Pausable</p>
             </div>
             <button @click="flagSupply ='fixed'">PausableERC-20</button>
@@ -33,7 +33,7 @@
               <p> &#9989; ERC-20</p>
               <p> &#9989; Custom: decimals, supply</p>
               <p> &#128679;Acsses type: ownable</p>
-              <p> &#9989; Mint&Burn tokens(capped supply)</p>
+              <p> &#9989; Mint&Burn tokens (capped supply)</p>
               <p> &#10060; Pausable</p>
             </div>
             <button @click="flagSupply ='cap'">SpectacularERC-20</button>
@@ -45,7 +45,7 @@
               <p> &#9989; ERC-20</p>
               <p> &#9989; Custom: decimals, supply</p>
               <p> &#128679; Acsses type: roles</p>
-              <p> &#9989; Mint&Burn tokens(capped supply)</p>
+              <p> &#9989; Mint&Burn tokens (capped supply)</p>
               <p> &#9989; Pausable</p>
             </div>
            <button @click="flagSupply ='cap'">LuxuriousERC-20</button>

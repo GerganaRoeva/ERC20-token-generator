@@ -1,5 +1,5 @@
 <template>
-    <p v-if="isThereMetaMask === 'true'" class="notice" >!!! Get MetaMask !!!</p>
+    <p v-if="isThereMetaMask !== 'true'" class="notice" >!!! Get MetaMask !!!</p>
 </template>
 
 <script>
