@@ -8,9 +8,7 @@
         coding required.
       </p>
       <router-link to="/create-token">
-          <div class="create-button">
-             Create token
-          </div>
+        <div class="create-button">Create token</div>
       </router-link>
     </section>
     <section>
