@@ -1,112 +1,102 @@
 <template>
-    <div class="conteiner">
-        <h2>Creating token</h2>
+  <div class="conteiner">
+    <h2>Creating token</h2>
 
-        <div class="buttons-conteiner">
-          <div class="token-info">
-            <div class="text-box">
-              <p class="title">Characteristics:</p>
-              <p> &#9989; ERC-20</p>
-              <p> &#9989; Custom: decimals, supply</p>
-              <p> &#128679;	Acsses type: none</p>
-              <p> &#10060; Mint&Burn tokens (capped supply)</p>
-              <p> &#10060; Pausable</p>
-            </div>
-            <button @click="sentType('basic')">BasicERC-20</button>
-
-          </div>
-          <div class="token-info">
-            <div class="text-box">
-              <p class="title">Characteristics:</p>
-              <p> &#9989; ERC-20</p>
-              <p> &#9989; Custom: decimals, supply</p>
-              <p> &#128679; Acsses type: ownable</p>
-              <p> &#10060; Mint&Burn tokens (capped supply)</p>
-              <p> &#9989; Pausable</p>
-            </div>
-            <button @click="sentType('pause')">PausableERC-20</button>
-
-          </div>
-          <div class="token-info">
-            <div class="text-box">
-              <p class="title">Characteristics:</p>
-              <p> &#9989; ERC-20</p>
-              <p> &#9989; Custom: decimals, supply</p>
-              <p> &#128679;Acsses type: ownable</p>
-              <p> &#9989; Mint&Burn tokens (capped supply)</p>
-              <p> &#10060; Pausable</p>
-            </div>
-            <button @click="sentType('spectac')">SpectacularERC-20</button>
-
-          </div>
-          <div class="token-info">
-            <div class="text-box">
-              <p class="title">Characteristics:</p>
-              <p> &#9989; ERC-20</p>
-              <p> &#9989; Custom: decimals, supply</p>
-              <p> &#128679; Acsses type: roles</p>
-              <p> &#9989; Mint&Burn tokens (capped supply)</p>
-              <p> &#9989; Pausable</p>
-            </div>
-           <button @click="sentType('lux')">LuxuriousERC-20</button>
-
-          </div>
-
+    <div class="buttons-conteiner">
+      <div class="token-info">
+        <div class="text-box">
+          <p class="title">Characteristics:</p>
+          <p>&#9989; ERC-20</p>
+          <p>&#9989; Custom: decimals, supply</p>
+          <p>&#128679; Acsses type: none</p>
+          <p>&#10060; Mint&Burn tokens (capped supply)</p>
+          <p>&#10060; Pausable</p>
         </div>
-     </div>
-
+        <button @click="sentType('BasicERC-20')">BasicERC-20</button>
+      </div>
+      <div class="token-info">
+        <div class="text-box">
+          <p class="title">Characteristics:</p>
+          <p>&#9989; ERC-20</p>
+          <p>&#9989; Custom: decimals, supply</p>
+          <p>&#128679; Acsses type: ownable</p>
+          <p>&#10060; Mint&Burn tokens (capped supply)</p>
+          <p>&#9989; Pausable</p>
+        </div>
+        <button @click="sentType('PausableERC-20')">PausableERC-20</button>
+      </div>
+      <div class="token-info">
+        <div class="text-box">
+          <p class="title">Characteristics:</p>
+          <p>&#9989; ERC-20</p>
+          <p>&#9989; Custom: decimals, supply</p>
+          <p>&#128679;Acsses type: ownable</p>
+          <p>&#9989; Mint&Burn tokens (capped supply)</p>
+          <p>&#10060; Pausable</p>
+        </div>
+        <button @click="sentType('SpectacularERC-20')">SpectacularERC-20</button>
+      </div>
+      <div class="token-info">
+        <div class="text-box">
+          <p class="title">Characteristics:</p>
+          <p>&#9989; ERC-20</p>
+          <p>&#9989; Custom: decimals, supply</p>
+          <p>&#128679; Acsses type: roles</p>
+          <p>&#9989; Mint&Burn tokens (capped supply)</p>
+          <p>&#9989; Pausable</p>
+        </div>
+        <button @click="sentType('LuxuriousERC-20')">LuxuriousERC-20</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-
-export default{
-  data(){
-    return{
+export default {
+  data() {
+    return {
       tokenType: "",
-    }
+    };
   },
   methods: {
-    sentType(tokenType){
-      this.tokenType = tokenType
-      this.$emit('token', this.tokenType);
-    }
+    sentType(tokenType) {
+      this.tokenType = tokenType;
+      this.$emit("token", this.tokenType);
+    },
   },
-}
-
+};
 </script>
 
 <style scoped>
-.title{
+.title {
   text-align: center;
   font-weight: bold;
 }
-.token-info{
+.token-info {
   text-align: left;
-
 }
-.text-box{
+.text-box {
   background-color: #d3faff;
   padding: 15px;
   border-radius: 12px;
-
 }
-.conteiner{
+.conteiner {
   text-align: center;
   flex-direction: column;
 }
-button{
-    background-color: #51ddf0;
-    border: none;
-    color: white;
-    width: 100%;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 12px;
-    display: inline-block;
-    font-weight: bold;
- }
+button {
+  background-color: #51ddf0;
+  border: none;
+  color: white;
+  width: 100%;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 12px;
+  display: inline-block;
+  font-weight: bold;
+}
 button:hover {
   background-color: #51cbf0;
   color: white;

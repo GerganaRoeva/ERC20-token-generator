@@ -16,7 +16,6 @@ import {
   abiBasic,
   bytecodeBasic,
 } from "../contractsInstances/instanceBasicERC20.js";
-// import Form from '../components/Form.vue';
 // import { abiPausable, bytecodePausable } from "../contractsInstances/instancePausabelERC20.js"
 
 const Web3 = require("web3");
