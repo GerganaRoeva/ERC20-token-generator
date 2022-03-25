@@ -1,17 +1,10 @@
 <template>
   <div class="container">
     <InstallMetaMask/>
-    <h2>Creating token</h2>
-
-    <div class="choosing-token">
-      <button @click="flagSupply ='fixed'">basic</button>
-      <button @click="flagSupply ='fixed'">pausable</button>
-      <button @click="flagSupply ='cap'">spectacular</button>
-      <button @click="flagSupply ='cap'">luxurious</button>
-    </div>
+    <ChooseToken/>
 
     <form @submit.prevent="submitForm">
-      <div v-show="flagSupply !== ''" class="token-details">
+      <div v-show="flagSupply !== ''" class="token-input">
         <div class="inputs">
           <label for="token-name">Name</label>
           <input
@@ -84,6 +77,7 @@
 
 <script>
 import InstallMetaMask from "../components/InstallMetaMask.vue";
+import ChooseToken from "../components/ChooseToken.vue";
 
 import { abiBasic, bytecodeBasic } from "../contractsInstances/instanceBasicERC20.js"
 // import { abiPausable, bytecodePausable } from "../contractsInstances/instancePausabelERC20.js"
@@ -95,6 +89,7 @@ const Web3 = require("web3");
 export default {
     components: {
       InstallMetaMask,
+      ChooseToken,
     },
   data() {
     return {
@@ -176,17 +171,11 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.choosing-token {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: baseline;
-}
 select {
   height: 18px;
   margin: 4px;
 }
-.token-details {
+.token-input {
   display: flex;
   flex-direction: row;
   height: 18px;
@@ -199,10 +188,6 @@ select {
   display: flex;
   flex-direction: column;
 }
-h2 {
-  text-align: center;
-}
-
 .create-button {
   background-color: aquamarine;
   padding: 14px 25px;
