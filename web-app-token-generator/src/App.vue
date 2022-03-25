@@ -23,5 +23,3 @@ body {
   font-family: "Karla", sans-serif;
 }
 </style>
-
-

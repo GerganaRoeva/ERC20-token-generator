@@ -2,7 +2,7 @@
   <div class="container">
     <InstallMetaMask />
     <ChooseToken @token="getType" />
-    <Form :typeOfToken="tokenType"/>
+    <Form :typeOfToken="tokenType" />
   </div>
 </template>
 
@@ -10,7 +10,6 @@
 import InstallMetaMask from "../components/InstallMetaMask.vue";
 import ChooseToken from "../components/ChooseToken.vue";
 import Form from "../components/Form.vue";
-
 
 import {
   abiBasic,
@@ -57,7 +56,6 @@ export default {
           from: accounts[0],
         });
     },
-    
   },
 };
 </script>

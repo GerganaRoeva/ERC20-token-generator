@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeroSec/>
+    <HeroSec />
   </div>
 </template>
 
