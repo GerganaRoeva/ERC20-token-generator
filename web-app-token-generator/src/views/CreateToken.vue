@@ -1,174 +1,64 @@
 <template>
   <div class="container">
-    <InstallMetaMask/>
-    <ChooseToken @token="getType"/>
-
-    <!-- <form @submit.prevent="submitForm">
-      <div v-show="flagSupply !== ''" class="token-input">
-        <div class="inputs">
-          <label for="token-name">Name</label>
-          <input
-            id="token-name"
-            name="token-name"
-            type="text"
-            v-model.trim="tokenName"
-            @blur="validateName"
-          />
-        </div>
-        <div class="inputs">
-          <label for="token-Symbol">Symbol</label>
-          <input
-            id="token-Symbol"
-            name="token-Symbol"
-            type="text"
-            v-model.trim="tokenSymbol"
-            @blur="validateSymbol"
-          />
-        </div>
-        <div class="inputs">
-          <label for="decimals">Decimals</label>
-          <input
-            id="decimals"
-            name="decimals"
-            type="number"
-            min="0"
-            v-model="tokenDecimals"
-            @blur="validateDecimals"
-          />
-        </div>
-        <div class="inputs">
-          <label for="supply">Supply</label>
-          <input
-            id="supply"
-            name="supply"
-            type="number"
-            min="0"
-            v-model="tokenSupply"
-            @blur="validateSupply"
-          />
-        </div>
-        <div v-show="type === 'lux'" class="inputs">
-          <label for="cap">Cap supply</label>
-          <input
-            id="cap"
-            name="cap"
-            type="number"
-            min="0"
-            v-model="tokenCapSupply"
-            @blur="validateCap"
-          />
-        </div>
-        <p v-show="nameValidity === 'invalid'">Invalid name</p>
-        <p v-show="symbolValidity === 'invalid'">Invalid symbol</p>
-        <p v-show="decimalsValidity === 'invalid'">
-          Decimals shoud be greater then 0
-        </p>
-        <p v-show="supplyValidity === 'invalid'">
-          Supply shoud be greater then 0
-        </p>
-        <p v-show="capValidity === 'invalid'">
-          Cap shoud be greater or equal to supply
-        </p>
-        <button @click="anyInvalidImput">submit</button>
-      </div>
-    </form> -->
+    <InstallMetaMask />
+    <ChooseToken @token="getType" />
+    <Form :typeOfToken="tokenType"/>
   </div>
 </template>
 
 <script>
 import InstallMetaMask from "../components/InstallMetaMask.vue";
 import ChooseToken from "../components/ChooseToken.vue";
+import Form from "../components/Form.vue";
 
-import { abiBasic, bytecodeBasic } from "../contractsInstances/instanceBasicERC20.js"
+
+import {
+  abiBasic,
+  bytecodeBasic,
+} from "../contractsInstances/instanceBasicERC20.js";
+// import Form from '../components/Form.vue';
 // import { abiPausable, bytecodePausable } from "../contractsInstances/instancePausabelERC20.js"
 
 const Web3 = require("web3");
 
-
-
 export default {
-    components: {
-      InstallMetaMask,
-      ChooseToken,
-    },
+  components: {
+    InstallMetaMask,
+    ChooseToken,
+    Form,
+  },
   data() {
     return {
-      flagSupply: "",
-      tokenName: "NAME-TEST",
-      tokenSymbol: "N-T",
-      tokenDecimals: 3,
-      tokenSupply: 3,
-      tokenCapSupply: 0,
-      supplyValidity: "pending",
-      capValidity: "pending",
-      nameValidity: "pending",
-      symbolValidity: "pending",
-      decimalsValidity: "pending",
-      canSubmit: "yes",
       tokenType: "",
     };
   },
   methods: {
-      getType(type){
-        this.tokenType = type;
-        console.log(this.tokenType);
-        console.log(type);
-
-      },
-      async submitForm() {
-          const web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.getAccounts();
-
-          const instanceBasicERC20 = await new web3.eth.Contract(abiBasic);
-
-          web3.eth.Contract.defaultAccount = await accounts[0];
-
-          await instanceBasicERC20.deploy({
-                data: bytecodeBasic,
-               arguments: [this.tokenName, this.tokenSymbol, this.tokenDecimals, this.tokenSupply ]
-           }).send({
-            from: accounts[0]
-         });
+    getType(type) {
+      this.tokenType = type;
     },
-    validateSupply() {
-      if (this.tokenSupply > 0) {
-        this.supplyValidity = "valid";
-      } else this.supplyValidity = "invalid";
-    },
+    async submitForm() {
+      const web3 = new Web3(window.ethereum);
+      const accounts = await web3.eth.getAccounts();
 
-    validateDecimals() {
-      if (this.tokenDecimals > 0) {
-        this.decimalsValidity = "valid";
-      } else this.decimalsValidity = "invalid";
-    },
+      const instanceBasicERC20 = await new web3.eth.Contract(abiBasic);
 
-    validateName() {
-      if (this.tokenName === "") {
-        this.nameValidity = "invalid";
-      } else this.nameValidity = "valid";
-    },
+      web3.eth.Contract.defaultAccount = await accounts[0];
 
-    validateSymbol() {
-      if (this.tokenSymbol === "") {
-        this.symbolValidity = "invalid";
-      } else this.symbolValidity = "valid";
+      await instanceBasicERC20
+        .deploy({
+          data: bytecodeBasic,
+          arguments: [
+            this.tokenName,
+            this.tokenSymbol,
+            this.tokenDecimals,
+            this.tokenSupply,
+          ],
+        })
+        .send({
+          from: accounts[0],
+        });
     },
-
-    validateCap() {
-      if (this.tokenCapSupply >= this.tokenSupply) {
-        this.capValidity = "valid";
-      } else this.capValidity = "invalid";
-    },
-    anyInvalidImput() {
-      if (
-        this.tokenCapSupply < this.tokenSupply ||
-        this.tokenSymbol != "" ||
-        this.tokenName != "" ||
-        this.tokenDecimals <= 0 ||
-        this.tokenSupply <= 0
-      )
-        this.canSubmit = "no";
-    },
+    
   },
 };
 </script>
