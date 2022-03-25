@@ -12,7 +12,7 @@
               <p> &#10060; Mint&Burn tokens (capped supply)</p>
               <p> &#10060; Pausable</p>
             </div>
-            <button @click="flagSupply ='fixed'">BasicERC-20</button>
+            <button @click="sentType('basic')">BasicERC-20</button>
 
           </div>
           <div class="token-info">
@@ -24,7 +24,7 @@
               <p> &#10060; Mint&Burn tokens (capped supply)</p>
               <p> &#9989; Pausable</p>
             </div>
-            <button @click="flagSupply ='fixed'">PausableERC-20</button>
+            <button @click="sentType('pause')">PausableERC-20</button>
 
           </div>
           <div class="token-info">
@@ -36,7 +36,7 @@
               <p> &#9989; Mint&Burn tokens (capped supply)</p>
               <p> &#10060; Pausable</p>
             </div>
-            <button @click="flagSupply ='cap'">SpectacularERC-20</button>
+            <button @click="sentType('spectac')">SpectacularERC-20</button>
 
           </div>
           <div class="token-info">
@@ -48,7 +48,7 @@
               <p> &#9989; Mint&Burn tokens (capped supply)</p>
               <p> &#9989; Pausable</p>
             </div>
-           <button @click="flagSupply ='cap'">LuxuriousERC-20</button>
+           <button @click="sentType('lux')">LuxuriousERC-20</button>
 
           </div>
 
@@ -59,7 +59,19 @@
 
 <script>
 
-
+export default{
+  data(){
+    return{
+      tokenType: "",
+    }
+  },
+  methods: {
+    sentType(tokenType){
+      this.tokenType = tokenType
+      this.$emit('token', this.tokenType);
+    }
+  },
+}
 
 </script>
 

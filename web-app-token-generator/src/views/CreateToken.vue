@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <InstallMetaMask/>
-    <ChooseToken/>
+    <ChooseToken @token="getType"/>
 
-    <form @submit.prevent="submitForm">
+    <!-- <form @submit.prevent="submitForm">
       <div v-show="flagSupply !== ''" class="token-input">
         <div class="inputs">
           <label for="token-name">Name</label>
@@ -47,7 +47,7 @@
             @blur="validateSupply"
           />
         </div>
-        <div v-show="flagSupply === 'cap'" class="inputs">
+        <div v-show="type === 'lux'" class="inputs">
           <label for="cap">Cap supply</label>
           <input
             id="cap"
@@ -71,7 +71,7 @@
         </p>
         <button @click="anyInvalidImput">submit</button>
       </div>
-    </form>
+    </form> -->
   </div>
 </template>
 
@@ -105,9 +105,16 @@ export default {
       symbolValidity: "pending",
       decimalsValidity: "pending",
       canSubmit: "yes",
+      tokenType: "",
     };
   },
   methods: {
+      getType(type){
+        this.tokenType = type;
+        console.log(this.tokenType);
+        console.log(type);
+
+      },
       async submitForm() {
           const web3 = new Web3(window.ethereum);
           const accounts = await web3.eth.getAccounts();
