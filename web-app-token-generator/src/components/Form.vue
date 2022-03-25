@@ -84,6 +84,13 @@
 </template>
 
 <script>
+import BasicERC20 from "../../../tokens/build/contracts/BasicERC20.json";
+import PausableERC20 from "../../../tokens/build/contracts/PausableERC20.json";
+import SpectacularERC20 from '../../../tokens/build/contracts/SpectacularERC20.json';
+import LuxuriousERC20 from '../../../tokens/build/contracts/LuxuriousERC20.json';
+
+const Web3 = require("web3");
+
 export default {
   data() {
     return {
@@ -98,7 +105,6 @@ export default {
       decimalsValidity: "",
       supplyValidity: "",
       capValidity: "",
-      // allValid: "",
     };
   },
   props: {
@@ -155,11 +161,134 @@ export default {
       this.validateCap();
       var allValid = this.allValid();
       if (allValid) {
-        this.submit();
+        this.submit(this.typeOfToken);
       }
     },
-    submit() {
-      
+    async submit(typeOfToken) {
+      const web3 = await new Web3(window.ethereum);
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await web3.eth.getAccounts();
+
+      switch (typeOfToken) {
+        case "BasicERC-20":
+          this.deployBasic(accounts, web3);
+          break;
+        case "PausableERC-20":
+          this.deployPausable(accounts, web3);
+          break;
+        case "SpectacularERC-20":
+          this.deploySpectacular(accounts, web3);
+          break;
+        case "LuxuriousERC-20":
+          this.deployLuxurious(accounts, web3);
+          break;
+      }
+    },
+    async deployBasic(accounts, web3) {
+      const instanceBasicERC20 = await new web3.eth.Contract(BasicERC20.abi, {
+        data: BasicERC20.bytecode,
+      });
+      console.log(typeof instanceBasicERC20);
+
+      instanceBasicERC20.options.address = await accounts[0];
+
+      web3.eth.Contract.defaultAccount = await accounts[0];
+
+      await instanceBasicERC20
+        .deploy({
+          arguments: [
+            this.tokenName,
+            this.tokenSymbol,
+            (this.tokenSupply * 10**this.tokenDecimals).toLocaleString('fullwide', {useGrouping:false}),
+            // this.tokenSupply,
+
+            this.tokenDecimals,
+          ],
+        })
+        .send({
+          from: accounts[0],
+        });
+
+        // await instanceBasicERC20.methods.transfer(accounts[0], this.tokenSupply).send({
+        //   from: accounts[0],
+        // })
+    },
+    async deployPausable(accounts, web3) {
+      const instancePausableERC20 = await new web3.eth.Contract(
+        PausableERC20.abi, {
+        data: PausableERC20.bytecode,
+      });
+
+      instancePausableERC20.options.address = await accounts[0];
+
+      web3.eth.Contract.defaultAccount = await accounts[0];
+
+      await instancePausableERC20
+        .deploy({
+          data: PausableERC20.bytecode,
+          arguments: [
+            this.tokenName,
+            this.tokenSymbol,
+            (this.tokenSupply * 10**this.tokenDecimals).toLocaleString('fullwide', {useGrouping:false}),
+            this.tokenDecimals,
+          ],
+        })
+        .send({
+          from: accounts[0],
+        });
+    },
+    async deploySpectacular(accounts, web3) {
+      const instanceSpectacularERC20 = await new web3.eth.Contract(
+        SpectacularERC20.abi, {
+        data: SpectacularERC20.bytecode,
+      });
+      instanceSpectacularERC20.options.address = await accounts[0];
+
+      web3.eth.Contract.defaultAccount = await accounts[0];
+
+      await instanceSpectacularERC20
+        .deploy({
+          data: SpectacularERC20.bytecode,
+          arguments: [
+            this.tokenName,
+            this.tokenSymbol,
+            this.tokenCapSupply * 10**this.tokenDecimals,
+            (this.tokenSupply * 10**this.tokenDecimals).toLocaleString('fullwide', {useGrouping:false}),
+            this.tokenDecimals
+          ],
+        })
+        .send({
+          from: accounts[0],
+        });
+    },
+    async deployLuxurious(accounts, web3) {
+        // const accounts = await web3.eth.getAccounts();
+
+      const instanceLuxuriousERC20 = await new web3.eth.Contract(
+        LuxuriousERC20.abi, {
+        data: LuxuriousERC20.bytecode,
+      });
+
+      instanceLuxuriousERC20.options.address = await accounts[0];
+
+      web3.eth.Contract.defaultAccount = await accounts[0];
+
+      await instanceLuxuriousERC20
+        .deploy({
+          arguments: [
+              this.tokenName,
+              this.tokenSymbol,
+              (this.tokenCapSupply * 10**this.tokenDecimals),
+              (this.tokenSupply * 10**this.tokenDecimals).toLocaleString('fullwide', {useGrouping:false}),
+              this.tokenDecimals
+          ],
+        })
+        .send({
+          from: accounts[0],
+        });
+        await instanceLuxuriousERC20.methods.transfer(accounts[0], this.tokenSupply).send({
+          from: accounts[0],
+        });
     },
   },
   watch: {

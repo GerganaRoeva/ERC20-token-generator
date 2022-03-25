@@ -11,13 +11,7 @@ import InstallMetaMask from "../components/InstallMetaMask.vue";
 import ChooseToken from "../components/ChooseToken.vue";
 import Form from "../components/Form.vue";
 
-import {
-  abiBasic,
-  bytecodeBasic,
-} from "../contractsInstances/instanceBasicERC20.js";
-// import { abiPausable, bytecodePausable } from "../contractsInstances/instancePausabelERC20.js"
 
-const Web3 = require("web3");
 
 export default {
   components: {
@@ -34,28 +28,7 @@ export default {
     getType(type) {
       this.tokenType = type;
     },
-    async submitForm() {
-      const web3 = new Web3(window.ethereum);
-      const accounts = await web3.eth.getAccounts();
 
-      const instanceBasicERC20 = await new web3.eth.Contract(abiBasic);
-
-      web3.eth.Contract.defaultAccount = await accounts[0];
-
-      await instanceBasicERC20
-        .deploy({
-          data: bytecodeBasic,
-          arguments: [
-            this.tokenName,
-            this.tokenSymbol,
-            this.tokenDecimals,
-            this.tokenSupply,
-          ],
-        })
-        .send({
-          from: accounts[0],
-        });
-    },
   },
 };
 </script>
