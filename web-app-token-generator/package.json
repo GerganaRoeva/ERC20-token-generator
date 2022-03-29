@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bn.js": "^5.2.0",
     "core-js": "^3.6.5",
     "fs": "^0.0.1-security",
     "vue": "^3.2.31",
