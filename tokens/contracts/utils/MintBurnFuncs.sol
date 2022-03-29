@@ -7,7 +7,6 @@ abstract contract MintBurnFuncs is BasicERC20{
 
     uint256 internal _capSupply;
 
-
     function _mint(address account, uint256 amount) internal virtual{
         require(account != address(0), "ERC20: mint to the zero address");
         require(_totalSupply + amount <= _capSupply, "Minting limit reached");
@@ -15,7 +14,6 @@ abstract contract MintBurnFuncs is BasicERC20{
         _totalSupply += amount;
         _balances[account] += amount;
         emit Transfer(address(0), account, amount);
-
     }
 
     function _burn(address account, uint256 amount) internal virtual{

@@ -9,7 +9,6 @@ contract BasicERC20{
     string internal _name;
     string internal _symbol;
     uint8 internal _decimals;
-
     uint256 internal _totalSupply;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
@@ -109,7 +108,6 @@ contract BasicERC20{
         _balances[to] += amount;
 
         emit Transfer(from, to, amount);
-
     }
 
     function _spendAllowance(
