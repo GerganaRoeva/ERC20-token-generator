@@ -1,10 +1,5 @@
 # web-app-token-generator
 
-## Run with doker
-```
-docker build -t web/app .
-docker run -it -p 8081:8080 web/app
-```
 App running at:
   - Local:   http://localhost:8081/
 
