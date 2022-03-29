@@ -4,8 +4,7 @@
       <h2>Create you own token now</h2>
       <!-- Text for example -->
       <p>
-        Create an ERC20 Token in less than a minute! No login. No setup. No
-        coding required.
+        Create ERC20 token contract! No coding, only MetaMask!
       </p>
       <router-link to="/create-token">
         <div class="create-button">Create token</div>
