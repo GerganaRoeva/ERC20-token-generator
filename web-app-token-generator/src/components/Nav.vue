@@ -3,9 +3,6 @@
     <button class="home">
       <router-link to="/"> ERC-20 TOKEN GENERATOR</router-link>
     </button>
-    <button class="dict">
-      <router-link to="/dictionary"> Dictionary</router-link>
-    </button>
   </div>
 </template>
 
@@ -17,7 +14,7 @@
   height: 85px;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
 button.home {
