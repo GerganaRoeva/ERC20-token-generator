@@ -100,7 +100,7 @@ contract("LuxuriousERC20", accounts => {
             await instance.mint(account_one, 5, {from: account_two});
         }
         catch (error) {
-            assert(error, "Non owner minted");
+            assert(error, "Non minter minted");
         }
 
         assert.equal(
