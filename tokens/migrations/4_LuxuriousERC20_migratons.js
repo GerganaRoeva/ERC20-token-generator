@@ -6,5 +6,5 @@ module.exports = function (deployer, name, symbol, supply, decimals) {
     supplyCap = 20000;
     decimals = 10;
     initalSupply = 1000;
-  deployer.deploy(LuxuriousERC20, name, symbol, supplyCap, initalSupply, decimals);
+  deployer.deploy(LuxuriousERC20, name, symbol, decimals, initalSupply, supplyCap);
 };

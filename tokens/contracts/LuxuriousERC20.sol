@@ -18,8 +18,8 @@ contract LuxuriousERC20 is ERC20Pausable, AccessControl, Ownable{
         string memory name_,
         string memory symbol_,
         uint8 decimals_,
-        uint256 capSupply_,
-        uint256 initialSupply_
+        uint256 initialSupply_,
+        uint256 capSupply_
     )ERC20(name_, symbol_){
         _mint(msg.sender, initialSupply_);
         _decimals = decimals_;
