@@ -1,57 +1,32 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./utils/PausableHelper.sol";
-import "./BasicERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract PausableERC20 is BasicERC20, PausableHelper {
+contract PausableERC20 is ERC20Pausable, Ownable{
+    uint8 private _decimals;
 
     constructor(
-       string memory name_,
-       string memory symbol_,
-       uint256 totalSupply_,
-       uint8 decimals_
-    ) BasicERC20(name_, symbol_, totalSupply_, decimals_) OwnableAccess()
-    {
-       _paused = false;
+        string memory name_,
+        string memory symbol_,
+        uint8 decimals_,
+        uint256 initialSupply_
+    )ERC20(name_, symbol_){
+        _mint(msg.sender, initialSupply_);
+        _decimals = decimals_;
     }
 
-    function pause() public virtual whenNotPaused onlyOwner returns (bool) {
+    function decimals() public view virtual override returns (uint8) {
+        return _decimals;
+    }
+
+    function pause() public onlyOwner{
         _pause();
-        return true;
     }
 
-    function unpause() public virtual whenPaused onlyOwner returns (bool) {
+    function unpause() public onlyOwner{
         _unpause();
-        return true;
     }
 
-    function transfer(
-        address to,
-        uint256 amount
-    ) public virtual override whenNotPaused returns (bool) {
-        address owner = msg.sender;
-        _transfer(owner, to, amount);
-        return true;
-    }
-
-    function transferFrom(
-        address from,
-        address to,
-        uint256 amount
-    ) public virtual override whenNotPaused returns (bool) {
-        address spender =  msg.sender;
-        _spendAllowance(from, spender, amount);
-        _transfer(from, to, amount);
-        return true;
-    }
-
-    function approve(
-        address spender,
-        uint256 amount
-    ) public virtual override whenNotPaused returns (bool) {
-        address owner = msg.sender;
-        _approve(owner, spender, amount);
-        return true;
-    }
 }
