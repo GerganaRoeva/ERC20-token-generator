@@ -5,9 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // TODO: Voting only onece
 
-interface IToken is IERC20{
-
-}
+interface IToken is IERC20{}
 
 contract Election {
     enum VoteAnswer {
@@ -45,10 +43,27 @@ contract Election {
         _;
     }
 
-    constructor(IToken _token) {
+    constructor(IToken _token, uint256 _startTime, uint256 _endTime) {
         token = _token;
         voteResults = VoteResults(0, 0, 0);
+        startTime = _startTime;
+        endTime = _endTime;
     }
+///////////////////////////////////////////////
+    // finctions for test usage
+    function setDates(uint256 _startTime, uint256 _endTime) public {
+        startTime = _startTime;
+        endTime = _endTime;
+    }
+
+    function getTimestamp() public view returns (uint256) {
+        return block.timestamp;
+    }
+
+    function yesResult() public view returns (uint256) {
+        return voteResults.yes;
+    }
+///////////////////////////////////////////////
 
     function voteYes() public {
         _vote(VoteAnswer.YES);
