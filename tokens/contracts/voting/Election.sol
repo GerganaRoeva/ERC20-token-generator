@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // TODO: Voting only onece
+//
 
 interface IToken is IERC20{}
 
@@ -50,7 +51,7 @@ contract Election {
         endTime = _endTime;
     }
 ///////////////////////////////////////////////
-    // finctions for test usage
+    // functions for test usage
     function setDates(uint256 _startTime, uint256 _endTime) public {
         startTime = _startTime;
         endTime = _endTime;
