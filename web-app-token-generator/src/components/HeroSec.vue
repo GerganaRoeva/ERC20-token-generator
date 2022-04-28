@@ -20,11 +20,7 @@
       </section>
     </section>
     <section>
-      <img
-        src="../assets/Notifications_Monochromatic.svg"
-        width="600"
-        height="400"
-      />
+      <img src="../assets/developer.svg" width="600" height="400" />
     </section>
   </div>
 </template>
