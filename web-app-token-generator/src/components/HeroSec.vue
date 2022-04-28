@@ -8,6 +8,9 @@
         <router-link to="/create-token">
           <div class="create-button">Create token</div>
         </router-link>
+        <h2>Start election using tokens to vote now!</h2>
+        <p>If you are token holder ypu can create election or vote at one</p>
+
         <router-link to="/create-election">
           <div class="create-button">Create election</div>
         </router-link>
@@ -52,8 +55,9 @@ a {
   text-decoration: none;
   color: white;
   padding: 7px;
+  font-weight: bold;
 }
-.buttons-container{
+.buttons-container {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
