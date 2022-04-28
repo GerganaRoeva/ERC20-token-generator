@@ -3,9 +3,6 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-// TODO: Voting only onece
-//
-
 interface IToken is IERC20{}
 
 contract Election {
@@ -23,7 +20,10 @@ contract Election {
     uint256 public startTime;
     uint256 public endTime;
     VoteResults public voteResults;
+
+    string private _topic;
     bool private _agreed;
+    mapping (address => bool) private volted;
 
     event votedYes();
     event votedNo();
@@ -44,11 +44,12 @@ contract Election {
         _;
     }
 
-    constructor(IToken _token, uint256 _startTime, uint256 _endTime) {
-        token = _token;
+    constructor(IToken token_, uint256 startTime_, uint256 endTime_, string memory topic_) {
+        token = token_;
         voteResults = VoteResults(0, 0, 0);
-        startTime = _startTime;
-        endTime = _endTime;
+        startTime = startTime_;
+        endTime = endTime_;
+        _topic = topic_;
     }
 ///////////////////////////////////////////////
     // functions for test usage
@@ -65,6 +66,10 @@ contract Election {
         return voteResults.yes;
     }
 ///////////////////////////////////////////////
+
+    function topic() public view returns (string memory) {
+        return _topic;
+    }
 
     function voteYes() public {
         _vote(VoteAnswer.YES);
@@ -91,6 +96,7 @@ contract Election {
     }
 
     function _vote(VoteAnswer answer) private onlyTokenholder ActivVoting{
+        require(volted[msg.sender] == false, "Can vote only once");
         uint256 voteWeight = token.balanceOf(msg.sender);
 
         if (answer == VoteAnswer.YES) {

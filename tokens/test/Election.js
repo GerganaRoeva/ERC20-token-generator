@@ -1,14 +1,12 @@
 const Election = artifacts.require("Election");
 const BasicERC20 = artifacts.require("BasicERC20");
-// var chai = require('chai');
-// //use custom BigNumber
-// chai.use(require('chai-bignumber')(BigNumber));
+
+// TODO: test end of voting and result
 
 contract("Election", (accounts) => {
   it("should create 0 for starting count for votes", async () => {
     const election = await Election.deployed();
     const result = await election.yesResult.call();
-    // console.log(result.toNumber());
     assert.equal(result.toNumber(), 0, "Not constructed correctly");
   });
 
