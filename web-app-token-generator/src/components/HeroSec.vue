@@ -8,8 +8,11 @@
         <router-link to="/create-token">
           <div class="create-button">Create token</div>
         </router-link>
+        <router-link to="/create-election">
+          <div class="create-button">Create election</div>
+        </router-link>
         <router-link to="/vote">
-          <div class="create-button">Vote with tokens</div>
+          <div class="create-button">Vote at election</div>
         </router-link>
       </section>
     </section>
