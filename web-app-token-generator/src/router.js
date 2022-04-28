@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from './views/Home.vue'
 import CreateToken from './views/CreateToken.vue'
+import VotingHomePage from './views/VotingHomePage.vue'
+
 
 
 const routes = [
@@ -13,6 +15,11 @@ const routes = [
         path: '/create-token',
         name: 'Create token',
         component: CreateToken 
+    },
+    {
+        path: '/vote',
+        name: 'Vote',
+        component: VotingHomePage 
     }
 ]
 
