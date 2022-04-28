@@ -1,143 +1,86 @@
 <template>
   <div v-show="isChoosen === 'true'" class="container">
-    <div class="from">
-      <h2>You are creating {{ typeOfToken }}</h2>
-      <form class="form">
-        <div class="token-input">
-          <div class="inputs">
-            <label for="token-name">Name: </label>
-            <input
-              id="token-name"
-              name="token-name"
-              type="text"
-              v-model.trim="tokenName"
-              @blur="validateName"
-            />
-            <p v-show="nameValidity === 'invalid'" class="error-text">
-              Name filed is required
-            </p>
-          </div>
-          <div class="inputs">
-            <label for="token-Symbol">Symbol: </label>
-            <input
-              id="token-Symbol"
-              name="token-Symbol"
-              type="text"
-              v-model.trim="tokenSymbol"
-              @blur="validateSymbol"
-            />
-            <p v-show="symbolValidity === 'invalid'" class="error-text">
-              Symbol filed is required
-            </p>
-          </div>
-          <div class="inputs">
-            <label for="decimals">Decimals: </label>
-            <input
-              id="decimals"
-              name="decimals"
-              type="number"
-              min="0"
-              v-model="tokenDecimals"
-              @blur="validateDecimals"
-            />
-            <p v-show="decimalsValidity === 'invalid'" class="error-text">
-              Decimals shoud be greater then 0 and less than 256
-            </p>
-          </div>
-          <div class="inputs">
-            <label for="supply">Supply: </label>
-            <input
-              id="supply"
-              name="supply"
-              type="number"
-              min="0"
-              v-model="tokenSupply"
-              @blur="validateSupply"
-            />
-            <p v-show="supplyValidity === 'invalid'" class="error-text">
-              Supply shoud be greater then 0
-            </p>
-          </div>
-          <div
-            v-show="
-              typeOfToken === 'LuxuriousERC-20' ||
-              typeOfToken === 'SpectacularERC-20'
-            "
-            class="inputs"
-          >
-            <label for="cap">Cap supply: </label>
-            <input
-              id="cap"
-              name="cap"
-              type="number"
-              min="0"
-              v-model="tokenCapSupply"
-              @blur="validateCap"
-            />
-            <p v-show="capValidity === 'invalid'" class="error-text">
-              Cap shoud be greater or equal to supply
-            </p>
-          </div>
-        </div>
-      </form>
-      <div class="center-button">
-        <button @click="confirm">Confirm</button>
-      </div>
-    </div>
+    <h2>You are creating {{ typeOfToken }}</h2>
+    <el-form label-width="100px" style="max-width: 460px">
+      <el-form-item label="Token name">
+        <el-input
+          v-model.trim="tokenName"
+          @blur="validateName"
+          placeholder="My New Token"
+        />
+        <p v-show="nameValidity === 'invalid'" class="error-text">
+          * Name filed is required
+        </p>
+      </el-form-item>
+      <el-form-item label="Token symbol">
+        <el-input
+          v-model.trim="tokenSymbol"
+          @blur="validateSymbol"
+          placeholder="MNT"
+        />
+
+        <p v-show="symbolValidity === 'invalid'" class="error-text">
+          * Symbol filed is required
+        </p>
+      </el-form-item>
+
+      <el-form-item label="Decimals">
+        <el-input-number
+          v-model="tokenDecimals"
+          :min="1"
+          :max="255"
+          size="small"
+          controls-position="right"
+        />
+      </el-form-item>
+
+      <el-form-item label="Supply">
+        <el-input-number
+          v-model="tokenSupply"
+          :min="1"
+          :max="255"
+          size="small"
+          controls-position="right"
+        />
+      </el-form-item>
+
+      <el-form-item
+        v-show="
+          typeOfToken === 'LuxuriousERC-20' ||
+          typeOfToken === 'SpectacularERC-20'
+        "
+        label="Cap supply"
+      >
+        <el-input-number
+          v-model="tokenCapSupply"
+          :min="1"
+          :max="255"
+          size="small"
+          controls-position="right"
+        />
+        <p v-show="capValidity === 'invalid'" class="error-text">
+          Cap shoud be greater or equal to supply
+        </p>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" @click="confirm">Confirm</el-button>
+      </el-form-item>
+    </el-form>
     <section>
       <img src="../assets/working-with-laptop.svg" width="600" height="400" />
     </section>
   </div>
 </template>
 
-<style scoped>
-img {
-  padding: 15px;
-}
-.center-button {
-  display: flex;
-  justify-content: center;
-}
-.token-input {
-  display: flex;
-  flex-direction: column;
-  justify-content: wrap;
-}
-.inputs {
-  padding: 5px;
-}
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #51ddf0;
-  border: none;
-  color: white;
-  padding: 15px 22px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 15px;
-  border-radius: 12px;
-  /* display: inline-block; */
-  font-weight: bold;
-  margin: 0;
-}
-button:hover {
-  background-color: #51cbf0;
-  color: white;
-}
-.error-text {
-  color: red;
-}
-</style>
-
 <script>
+import {
+  ElForm,
+  ElInput,
+  ElButton,
+  ElFormItem,
+  ElInputNumber,
+} from "element-plus";
 import BasicERC20 from "../../../tokens/build/contracts/BasicERC20.json";
 import PausableERC20 from "../../../tokens/build/contracts/PausableERC20.json";
 import SpectacularERC20 from "../../../tokens/build/contracts/SpectacularERC20.json";
@@ -146,6 +89,13 @@ import LuxuriousERC20 from "../../../tokens/build/contracts/LuxuriousERC20.json"
 const Web3 = require("web3");
 
 export default {
+  components: {
+    ElForm,
+    ElInput,
+    ElButton,
+    ElFormItem,
+    ElInputNumber,
+  },
   data() {
     return {
       isChoosen: "",
@@ -180,16 +130,6 @@ export default {
         this.symbolValidity = "invalid";
       } else this.symbolValidity = "valid";
     },
-    validateDecimals() {
-      if (this.tokenDecimals < 0 || this.tokenDecimals > 255) {
-        this.decimalsValidity = "invalid";
-      } else this.decimalsValidity = "valid";
-    },
-    validateSupply() {
-      if (this.tokenSupply > 0) {
-        this.supplyValidity = "valid";
-      } else this.supplyValidity = "invalid";
-    },
     validateCap() {
       if (this.tokenCapSupply >= this.tokenSupply) {
         this.capValidity = "valid";
@@ -197,8 +137,6 @@ export default {
     },
     allValid() {
       if (
-        this.supplyValidity === "valid" &&
-        this.decimalsValidity === "valid" &&
         this.symbolValidity === "valid" &&
         this.nameValidity === "valid"
       ) {
@@ -220,8 +158,6 @@ export default {
     confirm() {
       this.validateName();
       this.validateSymbol();
-      this.validateDecimals();
-      this.validateSupply();
       this.validateCap();
       var allValid = this.allValid();
       if (allValid) {
@@ -396,3 +332,54 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+img {
+  padding: 15px;
+}
+.center-button {
+  display: flex;
+  justify-content: center;
+}
+/* .token-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: wrap;
+}
+.inputs {
+  padding: 0px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+} */
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #51ddf0;
+  border: none;
+  color: white;
+  padding: 15px 22px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin: 0;
+  margin: 5px;
+}
+button:hover {
+  background-color: #51cbf0;
+  color: white;
+}
+.error-text {
+  color: red;
+}
+p {
+  font-size: var(--el-form-label-font-size);
+  color: var(--el-text-color-regular);
+}
+</style>

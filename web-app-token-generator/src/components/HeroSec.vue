@@ -3,12 +3,15 @@
     <section>
       <h2>Create you own token now</h2>
       <!-- Text for example -->
-      <p>
-        Create ERC20 token contract! No coding, only MetaMask!
-      </p>
-      <router-link to="/create-token">
-        <div class="create-button">Create token</div>
-      </router-link>
+      <p>Create ERC20 token contract! No coding, only MetaMask required!</p>
+      <section class="buttons-container">
+        <router-link to="/create-token">
+          <div class="create-button">Create token</div>
+        </router-link>
+        <router-link to="/vote">
+          <div class="create-button">Vote with tokens</div>
+        </router-link>
+      </section>
     </section>
     <section>
       <img
@@ -45,5 +48,11 @@ img {
 a {
   text-decoration: none;
   color: white;
+  padding: 7px;
+}
+.buttons-container{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 </style>
