@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "./views/Home.vue";
 import CreateToken from "./views/CreateToken.vue";
 import VotingHomePage from "./views/VotingHomePage.vue";
+import CreateElection from "./views/CreateElection.vue";
+
 
 const routes = [
   {
