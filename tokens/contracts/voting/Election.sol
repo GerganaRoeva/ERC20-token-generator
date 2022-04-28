@@ -44,8 +44,8 @@ contract Election {
         _;
     }
 
-    constructor(IToken token_, uint256 startTime_, uint256 endTime_, string memory topic_) {
-        token = token_;
+    constructor(address token_, uint256 startTime_, uint256 endTime_, string memory topic_) {
+        token = IToken(token_);
         voteResults = VoteResults(0, 0, 0);
         startTime = startTime_;
         endTime = endTime_;
