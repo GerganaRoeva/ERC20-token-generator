@@ -19,11 +19,21 @@
             end-placeholder="End date"
           />
         </el-form-item>
-        <el-form-item style="justify-conten: center">
+        <el-form-item style="justify-content: center">
           <el-button type="primary" @click="confirm">Create election</el-button>
         </el-form-item>
+        <!-- <div v-show="transactionComplited != 'notStarted'">
+          <span>
+            <h1 v-if="transactionComplited === 'success'">Contract Created!</h1> -->
+            <router-link to="/vote">
+              <el-button>Vote at election</el-button>
+            </router-link>
+          <!-- </span>
+          <h1 v-if="transactionComplited === 'fail'">Deploymend FAILD</h1>
+        </div> -->
       </el-form>
       <section class="image-conteiner">
+        <!-- Calendar Illustration by Manypixels Gallery -->
         <img src="../assets/calendar.svg" width="600" height="400" />
       </section>
     </section>
@@ -54,6 +64,8 @@ export default {
       tokenAddress: "",
       topic: "",
       startEnd: [],
+      transactionComplited: "notStarted",
+      // electionAddress: "",
     };
   },
   methods: {
@@ -66,21 +78,31 @@ export default {
       });
 
       instanceElection.options.address = await accounts[0];
+      // console.log(Date.now());
+      // console.log(this.startEnd[0]);
+      // console.log(this.startEnd[0].valueOf());
+      // console.log(parseInt(this.startEnd[0].valueOf().toString().slice(0, 10)));
 
       await instanceElection
         .deploy({
           arguments: [
             this.tokenAddress,
-            parseInt(this.startEnd[0].valueOf().toString()
-            .slice(0, 10)),
-            parseInt(this.startEnd[1].valueOf().toString()
-            .slice(0, 10)),
-            this.topic
+            parseInt(this.startEnd[0].valueOf().toString().slice(0, 10)),
+            parseInt(this.startEnd[1].valueOf().toString().slice(0, 10)),
+            this.topic,
           ],
         })
         .send({
           from: accounts[0],
+        })
+        .on("error", function () {
+          console.log("fail");
+          this.transactionComplited = "fail";
         });
+      this.transactionComplited = "success";
+      this.tokenAddress = "";
+      this.topic = "";
+      this.startEnd = [];
     },
   },
 };
@@ -90,8 +112,10 @@ export default {
 section {
   margin: 20px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
   flex-direction: row;
-  justify-content: space-around;
 }
 h1 {
   text-align: center;
@@ -116,8 +140,7 @@ button:hover {
   background-color: #51cbf0;
   color: white;
 }
-.image-conteiner {
-  display: flex;
-  justify-content: flex-end;
+a:link {
+  text-decoration: none;
 }
 </style>
