@@ -38,7 +38,6 @@
         <el-input-number
           v-model="tokenSupply"
           :min="1"
-          :max="255"
           size="small"
           controls-position="right"
         />
@@ -53,8 +52,7 @@
       >
         <el-input-number
           v-model="tokenCapSupply"
-          :min="1"
-          :max="255"
+          :min="2"
           size="small"
           controls-position="right"
         />
@@ -67,7 +65,10 @@
         <el-button type="primary" @click="confirm">Confirm</el-button>
       </el-form-item>
     </el-form>
+    <h2 v-show="transactionComplited === 'success'">Tokens deployed!</h2>
+    <h2 v-show="transactionComplited === 'fail'">Tokens deployment faild</h2>
     <section>
+      <!-- Working With Laptop Illustration by Manypixels Gallery -->
       <img src="../assets/working-with-laptop.svg" width="600" height="400" />
     </section>
   </div>
@@ -109,6 +110,7 @@ export default {
       decimalsValidity: "",
       supplyValidity: "",
       capValidity: "",
+      transactionComplited: "notStarted",
     };
   },
   props: {
@@ -136,10 +138,7 @@ export default {
       } else this.capValidity = "invalid";
     },
     allValid() {
-      if (
-        this.symbolValidity === "valid" &&
-        this.nameValidity === "valid"
-      ) {
+      if (this.symbolValidity === "valid" && this.nameValidity === "valid") {
         var basicTrue = "true";
       }
       if (
@@ -227,16 +226,21 @@ export default {
           arguments: [
             this.tokenName,
             this.tokenSymbol,
+            this.tokenDecimals,
             (this.tokenSupply * 10 ** this.tokenDecimals).toLocaleString(
               "fullwide",
               { useGrouping: false }
             ),
-            this.tokenDecimals,
           ],
         })
         .send({
           from: accounts[0],
+        })
+        .on("error", function () {
+          console.log("fail");
+          this.transactionComplited = "fail";
         });
+      this.transactionComplited = "success";
     },
     async deployPausable(accounts, web3) {
       const instancePausableERC20 = await new web3.eth.Contract(
@@ -254,16 +258,21 @@ export default {
           arguments: [
             this.tokenName,
             this.tokenSymbol,
+            this.tokenDecimals,
             (this.tokenSupply * 10 ** this.tokenDecimals).toLocaleString(
               "fullwide",
               { useGrouping: false }
             ),
-            this.tokenDecimals,
           ],
         })
         .send({
           from: accounts[0],
+        })
+        .on("error", function () {
+          console.log("fail");
+          this.transactionComplited = "fail";
         });
+      this.transactionComplited = "success";
     },
     async deploySpectacular(accounts, web3) {
       const instanceSpectacularERC20 = await new web3.eth.Contract(
@@ -279,20 +288,25 @@ export default {
           arguments: [
             this.tokenName,
             this.tokenSymbol,
-            (this.tokenCapSupply * 10 ** this.tokenDecimals).toLocaleString(
-              "fullwide",
-              { useGrouping: false }
-            ),
+            this.tokenDecimals,
             (this.tokenSupply * 10 ** this.tokenDecimals).toLocaleString(
               "fullwide",
               { useGrouping: false }
             ),
-            this.tokenDecimals,
+            (this.tokenCapSupply * 10 ** this.tokenDecimals).toLocaleString(
+              "fullwide",
+              { useGrouping: false }
+            ),
           ],
         })
         .send({
           from: accounts[0],
+        })
+        .on("error", function () {
+          console.log("fail");
+          this.transactionComplited = "fail";
         });
+      this.transactionComplited = "success";
     },
     async deployLuxurious(accounts, web3) {
       const instanceLuxuriousERC20 = await new web3.eth.Contract(
@@ -309,20 +323,25 @@ export default {
           arguments: [
             this.tokenName,
             this.tokenSymbol,
-            (this.tokenCapSupply * 10 ** this.tokenDecimals).toLocaleString(
-              "fullwide",
-              { useGrouping: false }
-            ),
+            this.tokenDecimals,
             (this.tokenSupply * 10 ** this.tokenDecimals).toLocaleString(
               "fullwide",
               { useGrouping: false }
             ),
-            this.tokenDecimals,
+            (this.tokenCapSupply * 10 ** this.tokenDecimals).toLocaleString(
+              "fullwide",
+              { useGrouping: false }
+            ),
           ],
         })
         .send({
           from: accounts[0],
+        })
+        .on("error", function () {
+          console.log("fail");
+          this.transactionComplited = "fail";
         });
+      this.transactionComplited = "success";
     },
   },
   watch: {
@@ -341,20 +360,6 @@ img {
   display: flex;
   justify-content: center;
 }
-/* .token-input {
-  display: flex;
-  flex-direction: column;
-  justify-content: wrap;
-}
-.inputs {
-  padding: 0px;
-}
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-} */
 button {
   display: flex;
   justify-content: center;
