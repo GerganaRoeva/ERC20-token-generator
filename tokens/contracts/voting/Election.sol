@@ -17,13 +17,14 @@ contract Election {
     }
 
     IToken public token;
-    uint256 public startTime;
-    uint256 public endTime;
-    VoteResults public voteResults;
 
+    VoteResults private _voteResults;
     string private _topic;
     bool private _agreed;
-    mapping (address => bool) private volted;
+    uint256 private _startTime;
+    uint256 private _endTime;
+
+    mapping (address => bool) private _volted;
 
     event votedYes();
     event votedNo();
@@ -35,40 +36,40 @@ contract Election {
     }
 
     modifier ActivVoting() {
-        require(block.timestamp >= startTime && block.timestamp <= endTime, "Election is not active");
-        _;
-    }
-
-    modifier EndedVoting() {
-        require(block.timestamp > endTime, "Election is still going");
+        require(block.timestamp >= _startTime && block.timestamp <= _endTime, "Election is not active");
         _;
     }
 
     constructor(address token_, uint256 startTime_, uint256 endTime_, string memory topic_) {
         token = IToken(token_);
-        voteResults = VoteResults(0, 0, 0);
-        startTime = startTime_;
-        endTime = endTime_;
+        _voteResults = VoteResults(0, 0, 0);
+        _startTime = startTime_;
+        _endTime = endTime_;
         _topic = topic_;
     }
-///////////////////////////////////////////////
-    // functions for test usage
-    function setDates(uint256 _startTime, uint256 _endTime) public {
-        startTime = _startTime;
-        endTime = _endTime;
+
+    function resultsYes() public view returns (uint256) {
+        return _voteResults.yes;
     }
 
-    function getTimestamp() public view returns (uint256) {
-        return block.timestamp;
+    function resultsNo() public view returns (uint256) {
+        return _voteResults.no;
     }
 
-    function yesResult() public view returns (uint256) {
-        return voteResults.yes;
+    function resultsAbstain() public view returns (uint256) {
+        return _voteResults.abstain;
     }
-///////////////////////////////////////////////
 
     function topic() public view returns (string memory) {
         return _topic;
+    }
+
+    function startTime() public view returns (uint256) {
+        return _startTime;
+    }
+
+    function endTime() public view returns (uint256) {
+        return _endTime;
     }
 
     function voteYes() public {
@@ -83,11 +84,9 @@ contract Election {
         _vote(VoteAnswer.ABSTAIN);
     }
 
-    function getWinner() public EndedVoting returns (bool) {
-        if ( voteResults.yes > voteResults.no ) {
-            if(voteResults.yes > voteResults.abstain) {
+    function getWinner() public returns (bool) {
+        if (_voteResults.yes > _voteResults.no) {
                 _agreed = true;
-            }
         }
         else {
             _agreed = false;
@@ -96,21 +95,22 @@ contract Election {
     }
 
     function _vote(VoteAnswer answer) private onlyTokenholder ActivVoting{
-        require(volted[msg.sender] == false, "Can vote only once");
+        require(_volted[msg.sender] == false, "Can vote only once");
         uint256 voteWeight = token.balanceOf(msg.sender);
 
         if (answer == VoteAnswer.YES) {
-            voteResults.yes = voteResults.yes + voteWeight;
+            _voteResults.yes = _voteResults.yes + voteWeight;
             emit votedYes();
         }
         if (answer == VoteAnswer.NO) {
-            voteResults.no = voteResults.no + voteWeight;
+            _voteResults.no = _voteResults.no + voteWeight;
             emit votedNo();
         }
         if (answer == VoteAnswer.ABSTAIN){
-            voteResults.abstain = voteResults.abstain + voteWeight;
+            _voteResults.abstain = _voteResults.abstain + voteWeight;
             emit votedAbstain();
         }
+        _volted[msg.sender] = true;
     }
 
 }
