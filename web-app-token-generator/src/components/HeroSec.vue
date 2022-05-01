@@ -20,6 +20,7 @@
       </section>
     </section>
     <section>
+      <!-- Developer Illustration by Manypixels Gallery -->
       <img src="../assets/developer.svg" width="600" height="400" />
     </section>
   </div>
