@@ -22,15 +22,15 @@
         <el-form-item style="justify-content: center">
           <el-button type="primary" @click="confirm">Create election</el-button>
         </el-form-item>
-        <!-- <div v-show="transactionComplited != 'notStarted'">
+        <div v-show="transactionComplited != 'notStarted'">
           <span>
-            <h1 v-if="transactionComplited === 'success'">Contract Created!</h1> -->
+            <h1 v-if="transactionComplited === 'success'">Contract Created!</h1>
             <router-link to="/vote">
               <el-button>Vote at election</el-button>
             </router-link>
-          <!-- </span>
+          </span>
           <h1 v-if="transactionComplited === 'fail'">Deploymend FAILD</h1>
-        </div> -->
+        </div>
       </el-form>
       <section class="image-conteiner">
         <!-- Calendar Illustration by Manypixels Gallery -->
