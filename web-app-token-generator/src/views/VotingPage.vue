@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <InstallMetaMask />
     <section>
       <el-form style="max-width: 800px">
         <el-form-item label="Address of voting contract">
@@ -74,11 +75,13 @@
 <script>
 import { ElForm, ElInput, ElButton, ElFormItem, ElTag } from "element-plus";
 import Election from "../../../tokens/build/contracts/Election.json";
+import InstallMetaMask from "../components/InstallMetaMask.vue";
 
 const Web3 = require("web3");
 
 export default {
   components: {
+    InstallMetaMask,
     ElForm,
     ElInput,
     ElButton,

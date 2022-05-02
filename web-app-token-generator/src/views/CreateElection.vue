@@ -1,5 +1,6 @@
 <template>
   <span>
+    <InstallMetaMask />
     <h1>Create new election now</h1>
     <section>
       <el-form style="max-width: 800px">
@@ -49,10 +50,13 @@ import {
   ElDatePicker,
 } from "element-plus";
 import Election from "../../../tokens/build/contracts/Election.json";
+import InstallMetaMask from "../components/InstallMetaMask.vue";
+
 const Web3 = require("web3");
 
 export default {
   components: {
+    InstallMetaMask,
     ElForm,
     ElInput,
     ElButton,
