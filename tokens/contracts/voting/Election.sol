@@ -37,11 +37,19 @@ contract Election {
     }
 
     modifier activVoting() {
-        require(block.timestamp >= _startTime && block.timestamp <= _endTime, "Election is not active");
+        require(
+            block.timestamp >= _startTime && block.timestamp <= _endTime,
+            "Election is not active"
+        );
         _;
     }
 
-    constructor(address token_, uint256 startTime_, uint256 endTime_, string memory topic_) {
+    constructor(
+        address token_,
+        uint256 startTime_,
+        uint256 endTime_,
+        string memory topic_
+    ) {
         token = IToken(token_);
         _voteResults = VoteResults(0, 0, 0);
         _startTime = startTime_;
