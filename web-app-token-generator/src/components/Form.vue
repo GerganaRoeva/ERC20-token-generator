@@ -52,6 +52,7 @@
       >
         <el-input-number
           v-model="tokenCapSupply"
+          @blur="validateCap"
           :min="2"
           size="small"
           controls-position="right"
