@@ -6,17 +6,18 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 interface IToken is IERC20{}
 
 contract Election {
+
+    IToken public token;
+
     enum VoteAnswer {
         YES, NO, ABSTAIN
     }
 
-    struct VoteResults{
+    struct private VoteResults {
         uint256 yes;
         uint256 no;
         uint256 abstain;
     }
-
-    IToken public token;
 
     VoteResults private _voteResults;
     string private _topic;
@@ -24,7 +25,7 @@ contract Election {
     uint256 private _startTime;
     uint256 private _endTime;
 
-    mapping (address => bool) private _volted;
+    mapping(address => bool) private _volted;
 
     event votedYes();
     event votedNo();
@@ -35,7 +36,7 @@ contract Election {
         _;
     }
 
-    modifier ActivVoting() {
+    modifier activVoting() {
         require(block.timestamp >= _startTime && block.timestamp <= _endTime, "Election is not active");
         _;
     }
@@ -94,7 +95,7 @@ contract Election {
         return _agreed;
     }
 
-    function _vote(VoteAnswer answer) private onlyTokenholder ActivVoting{
+    function _vote(VoteAnswer answer) private onlyTokenholder activVoting {
         require(_volted[msg.sender] == false, "Can vote only once");
         uint256 voteWeight = token.balanceOf(msg.sender);
 
