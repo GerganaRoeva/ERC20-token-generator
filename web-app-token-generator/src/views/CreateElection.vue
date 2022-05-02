@@ -82,10 +82,6 @@ export default {
       });
 
       instanceElection.options.address = await accounts[0];
-      // console.log(Date.now());
-      // console.log(this.startEnd[0]);
-      // console.log(this.startEnd[0].valueOf());
-      // console.log(parseInt(this.startEnd[0].valueOf().toString().slice(0, 10)));
 
       await instanceElection
         .deploy({
