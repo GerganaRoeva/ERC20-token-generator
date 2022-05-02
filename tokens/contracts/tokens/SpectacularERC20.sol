@@ -18,12 +18,10 @@ contract SpectacularERC20 is ERC20, Ownable{
         uint256 initialSupply_,
         uint256 capSupply_
  )ERC20(name_, symbol_){
-
         _mint(msg.sender, initialSupply_);
         _decimals = decimals_;
         _capSupply = capSupply_;
         _initialSupply = initialSupply_;
-
     }
 
     function decimals() public view virtual override returns (uint8) {
