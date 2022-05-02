@@ -58,7 +58,7 @@
           controls-position="right"
         />
         <p v-show="capValidity === 'invalid'" class="error-text">
-          Cap shoud be greater or equal to supply
+          * Cap shoud be greater or equal to supply
         </p>
       </el-form-item>
 
