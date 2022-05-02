@@ -13,7 +13,7 @@ contract Election {
         YES, NO, ABSTAIN
     }
 
-    struct private VoteResults {
+    struct VoteResults {
         uint256 yes;
         uint256 no;
         uint256 abstain;
