@@ -57,18 +57,6 @@ contract Election {
         _topic = topic_;
     }
 
-    function resultsYes() public view returns (uint256) {
-        return _voteResults.yes;
-    }
-
-    function resultsNo() public view returns (uint256) {
-        return _voteResults.no;
-    }
-
-    function resultsAbstain() public view returns (uint256) {
-        return _voteResults.abstain;
-    }
-
     function topic() public view returns (string memory) {
         return _topic;
     }
@@ -81,16 +69,16 @@ contract Election {
         return _endTime;
     }
 
-    function voteYes() public {
-        _vote(VoteAnswer.YES);
+    function resultsYes() public view returns (uint256) {
+        return _voteResults.yes;
     }
 
-    function voteNo() public {
-        _vote(VoteAnswer.NO);
+    function resultsNo() public view returns (uint256) {
+        return _voteResults.no;
     }
 
-    function voteAbstain() public {
-        _vote(VoteAnswer.ABSTAIN);
+    function resultsAbstain() public view returns (uint256) {
+        return _voteResults.abstain;
     }
 
     function getWinner() public returns (bool) {
@@ -101,6 +89,18 @@ contract Election {
             _agreed = false;
         }
         return _agreed;
+    }
+
+    function voteYes() public {
+        _vote(VoteAnswer.YES);
+    }
+
+    function voteNo() public {
+        _vote(VoteAnswer.NO);
+    }
+
+    function voteAbstain() public {
+        _vote(VoteAnswer.ABSTAIN);
     }
 
     function _vote(VoteAnswer answer) private onlyTokenholder activVoting {
