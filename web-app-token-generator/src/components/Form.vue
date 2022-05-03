@@ -83,6 +83,7 @@ import {
   ElFormItem,
   ElInputNumber,
 } from "element-plus";
+
 import BasicERC20 from "../../../tokens/build/contracts/BasicERC20.json";
 import PausableERC20 from "../../../tokens/build/contracts/PausableERC20.json";
 import SpectacularERC20 from "../../../tokens/build/contracts/SpectacularERC20.json";
@@ -308,6 +309,7 @@ export default {
           this.transactionComplited = "fail";
         });
       this.transactionComplited = "success";
+
     },
     async deployLuxurious(accounts, web3) {
       const instanceLuxuriousERC20 = await new web3.eth.Contract(
