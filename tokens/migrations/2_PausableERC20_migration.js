@@ -5,5 +5,5 @@ module.exports = function (deployer, name, symbol, supply, decimals) {
     symbol = "NM";
     supply = 200;
     decimals = 10;
-  deployer.deploy(PausableERC20, name, symbol, supply, decimals);
+  deployer.deploy(PausableERC20, name, symbol, decimals, supply);
 };
