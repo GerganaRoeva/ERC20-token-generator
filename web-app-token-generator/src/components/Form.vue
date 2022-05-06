@@ -28,7 +28,7 @@
         <el-input-number
           v-model="tokenDecimals"
           :min="1"
-          :max="255"
+          :max="32"
           size="small"
           controls-position="right"
         />
