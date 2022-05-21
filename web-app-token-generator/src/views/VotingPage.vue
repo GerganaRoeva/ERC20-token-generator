@@ -55,8 +55,8 @@
             <el-tag class="ml-2" type="info"
               >Abstain votes: {{ resultsAbstain }}</el-tag
             >
-            <p class="result" v-if="winner === true">Poposal accepted</p>
-            <p class="result" v-show="winner === false">Poposal declinced</p>
+            <p class="result" v-if="winner === true">Proposal accepted</p>
+            <p class="result" v-show="winner === false">Proposal declinced</p>
           </section>
         </section>
         <div v-show="transactionComplited === 'fail' && isActive === true">
